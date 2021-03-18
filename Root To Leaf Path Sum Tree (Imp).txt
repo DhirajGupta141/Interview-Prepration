@@ -1,0 +1,31 @@
+public class Solution 
+{
+    void helper(TreeNode root,int sum,ArrayList<Integer> subans,ArrayList<ArrayList<Integer>> ans)
+    {
+        if(root==null)
+        {
+            return;
+        }
+        
+        subans.add(root.val);
+        if(root.val==sum && root.left==null && root.right==null)//Thinking Like single node or we reached till the leaf with the given sum
+        {
+            ans.add(subans);
+            return;
+        }
+        
+        helper(root.left,sum-root.val , new ArrayList<>(subans),ans);
+        helper(root.right,sum-root.val,new ArrayList<>(subans),ans);
+        
+    }
+    public ArrayList<ArrayList<Integer>> pathSum(TreeNode root, int sum) 
+    {
+        ArrayList<ArrayList<Integer>> ans=new ArrayList<>();
+        
+        helper(root,sum,new ArrayList<>(),ans);
+        
+        return ans;
+        
+        
+    }
+}
