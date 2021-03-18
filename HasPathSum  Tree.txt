@@ -1,0 +1,27 @@
+public class Solution 
+{
+    public int hasPathSum(TreeNode root, int sum) 
+    {
+        if(root==null)
+        {
+            return 0;
+        }
+        
+        if( sum==root.val && root.left==null && root.right==null)
+        {
+            return 1;
+        }
+        
+        int left=hasPathSum(root.left,sum-root.val);
+        int right=hasPathSum(root.right,sum-root.val);
+        
+        if(left==1 || right==1)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+}
