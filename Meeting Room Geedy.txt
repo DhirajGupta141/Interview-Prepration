@@ -1,0 +1,36 @@
+public class Solution 
+{
+    public int solve(ArrayList<ArrayList<Integer>> a) 
+    {
+        
+        if(a.size()==0 || a==null)
+        {
+            return 0;
+        }
+        
+        Collections.sort(a ,(n1,n2)->n1.get(0)-n2.get(0)); // n1 and n2 are two lists
+        
+        PriorityQueue<Integer> minH=new PriorityQueue<>();
+        
+        for(ArrayList<Integer> meet: a)  //meet will have Arraylist
+        {
+            if(minH.isEmpty())         
+            {
+                minH.add(meet.get(1));
+                continue;
+            }
+            
+            if(minH.peek()<=meet.get(0))  // Naya Meet start hone se pahle hi pahle wala koi 
+                                          //meet khatam ho chuka hai
+// And We are using minHeap so it will store the meet which finishes first at the top
+            {
+                minH.remove();
+            }
+            
+            minH.add(meet.get(1));  // Any way we have to add the new meet end in the heap
+        }
+        
+        return minH.size();
+        
+    }
+}
