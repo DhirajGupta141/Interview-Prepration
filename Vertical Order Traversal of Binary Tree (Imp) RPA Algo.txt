@@ -1,0 +1,122 @@
+Given a binary tree A consisting of N nodes, return a 2-D array denoting the vertical order traversal of A.
+
+Go through the example and image for more details.
+
+NOTE:
+
+If 2 or more Tree Nodes shares the same vertical level then the one with earlier occurence in the pre-order traversal of tree comes first in the output.
+Row 1 of the output array will be the nodes on leftmost vertical line similarly last row of the output array will be the nodes on the rightmost vertical line.
+
+
+Problem Constraints
+0 <= N <= 104
+
+
+
+Input Format
+First and only argument is an pointer to root of the binary tree A.
+
+
+
+Output Format
+Return a 2D array denoting the vertical order traversal of A.
+
+
+
+Example Input
+Input 1:
+
+      6
+    /   \
+   3     7
+  / \     \
+ 2   5     9
+Input 2:
+
+           1
+         /   \
+        2     3
+       / \
+      4   5
+
+
+Example Output
+Output 1:
+
+ [
+    [2],
+    [3],
+    [6, 5],
+    [7],
+    [9]
+ ]
+Output 2:
+
+ [
+    [4],
+    [2],
+    [1, 5],
+    [3]
+ ]
+----------------------------------------------------------------Solution-----------------------------------------------------------------------
+public class Solution 
+{
+    void helper(TreeNode root,TreeMap<Integer,ArrayList<Integer>> m)
+    {
+        Queue<Integer> qh=new LinkedList<Integer>();
+        Queue<TreeNode> qn=new LinkedList<TreeNode>();
+        
+        qn.add(root);
+        qh.add(0);  //adding root
+        
+        while(!qn.isEmpty())
+        {
+            //rpa --> rremoval from both
+            TreeNode temp=qn.remove(); //r
+            int h=qh.remove();     //r
+            
+            if(m.get(h)==null)
+            {
+                ArrayList<Integer> a=new ArrayList<>();
+                a.add(temp.val); //adding the current value
+                m.put(h,a);   //making key value pair
+            }
+            else   //if  key already exist
+            {
+                ArrayList<Integer> l=m.get(h);
+                l.add(temp.val);
+                m.put(h,l);
+            }
+            
+            if(temp.left!=null)
+            {
+                qn.add(temp.left);
+                qh.add(h-1);
+            }
+            if(temp.right!=null)
+            {
+                qn.add(temp.right);
+                qh.add(h+1);
+            }
+        }
+    }
+    public ArrayList<ArrayList<Integer>> verticalOrderTraversal(TreeNode root)
+    {
+        if(root==null)
+        {
+            return new ArrayList<>();
+        }
+        //TreeMap Keeps the value in sorted order based on its key
+        TreeMap<Integer,ArrayList<Integer>> m=new TreeMap<Integer,ArrayList<Integer>>();
+        ArrayList<ArrayList<Integer>> ans=new ArrayList<>();
+        
+        helper(root,m);
+        
+        for(int key:m.keySet())
+        {
+            ans.add(m.get(key));
+        }
+        
+        return ans;
+    }
+}
