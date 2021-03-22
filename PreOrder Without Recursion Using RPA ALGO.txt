@@ -1,0 +1,46 @@
+Given a binary tree, return the preorder traversal of its nodes’ values.
+
+Example :
+Given binary tree
+
+   1
+    \
+     2
+    /
+   3
+return [1,2,3].
+
+----------------------------------------------------------------Solution Without Recursion RPA ALGO-----------------------------------------------
+public class Solution 
+{
+    public ArrayList<Integer> preorderTraversal(TreeNode root) 
+    {
+        if(root==null)
+        {
+            return new ArrayList<Integer>();
+        }
+        
+        ArrayList<Integer> ans=new ArrayList<>();
+        Stack<TreeNode> s=new Stack<>();
+        
+       // TreeNode pointer=root;
+        s.push(root);
+        while(s.size()>0)
+        {
+            //RPA Algorithm
+            TreeNode temp=s.pop(); //r
+            ans.add(temp.val);    //p
+	    //First Right and then Left
+            if(temp.right!=null)//a
+            {
+                s.push(temp.right);
+            }
+            if(temp.left!=null)
+            {
+                s.push(temp.left);
+            }
+        }
+        
+        return ans;
+    }
+}
