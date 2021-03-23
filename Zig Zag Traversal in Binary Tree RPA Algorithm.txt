@@ -1,0 +1,92 @@
+Given a binary tree, return the zigzag level order traversal of its nodes’ values. 
+(ie, from left to right, then right to left for the next level and alternate between).
+
+Example :
+Given binary tree
+
+    3
+   / \
+  9  20
+    /  \
+   15   7
+return
+
+[
+         [3],
+         [20, 9],
+         [15, 7]
+]
+
+_________________________________solution RPA Algorithm_________________
+
+level --> odd --> Left to right Adding because we want right to left in next level
+level --> even --> Right to left Adding because we want left to right in next level
+
+public class Solution 
+{
+    public ArrayList<ArrayList<Integer>> zigzagLevelOrder(TreeNode root)
+    {
+        if(root==null)
+        {
+            return new ArrayList<>();
+        }
+        
+        Stack<TreeNode> ms=new Stack<>();  // mainstack
+        Stack<TreeNode> cs=new Stack<>();  //child stack
+       
+        int level=1;  //initializing the level from 1
+        
+        ArrayList<ArrayList<Integer>> ans=new ArrayList<>();
+        
+        ms.add(root);  //
+       
+        while(!ms.isEmpty())
+        {
+            ArrayList<Integer> subans=new ArrayList<>();  //Here the level changed
+            
+            int size=ms.size();
+            
+            for(int i=0;i<size;i++)         
+            {
+                TreeNode temp=ms.pop();  //r
+                subans.add(temp.val);  //p
+                if(level%2!=0)   //a
+                {
+                    if(temp.left!=null)
+                    {
+                        cs.add(temp.left);
+                    }
+                    if(temp.right!=null)
+                    {
+                        cs.add(temp.right);
+                    }
+                
+                }
+                if(level%2==0)          
+                {
+                    if(temp.right!=null)
+                    {
+                        cs.add(temp.right);
+                    }
+                    if(temp.left!=null)
+                    {
+                        cs.add(temp.left);
+                    }
+                }
+            }
+            
+            if(ms.isEmpty())    //
+            {
+                ms=cs;
+                cs=new Stack<TreeNode>();      
+                
+                ans.add(subans);
+                level++;   //when main stack become empty level get changed 
+            }
+        }
+        
+        return ans;
+        
+    }
+}
+
