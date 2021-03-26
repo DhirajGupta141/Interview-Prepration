@@ -1,0 +1,84 @@
+Given a binary search tree, write a function to find the kth smallest element in the tree.
+
+Example :
+
+Input : 
+  2
+ / \
+1   3
+
+and k = 2
+
+Return : 2
+
+As 2 is the second smallest element in the tree.
+
+_______________________________________________________________________SOLUTION___________________________________________________________________
+
+O(N) extra space
+public class Solution 
+{
+
+   ArrayList<Integer> list=new ArrayList<>();
+    
+    void helper(TreeNode root)
+    {
+        if(root==null)
+        {
+            return;
+        }
+        helper(root.left);
+        list.add(root.val);
+        helper(root.right);
+        
+    }
+    
+    public int kthsmallest(TreeNode root, int key) 
+    {
+        if(root==null)
+        {
+            return 0;
+        }
+        
+        helper(root);
+        
+        return list.get(key-1);
+        
+        
+    }
+}
+
+O(n) TC
+___________________________________________________________________________________________________________________________________________________
+public solution
+{
+    int ans=0;
+    int count=0;
+    
+    void helper(TreeNode root,int key)
+    {
+        if(root==null)
+        {
+            return;
+        }
+        
+        helper(root.left,key);
+        count++;
+        if(count==key)
+        {
+            ans=root.val;
+        }
+        helper(root.right,key);
+    }
+    public int kthsmallest(TreeNode root, int key) 
+    {
+        if(root==null)
+        {
+            return 0;
+        }
+        
+        helper(root,key);
+        return ans;
+    }
+
+}
