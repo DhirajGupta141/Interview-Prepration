@@ -1,0 +1,65 @@
+Given a binary tree, flatten it to a linked list in-place.
+
+Example :
+Given
+
+
+         1
+        / \
+       2   5
+      / \   \
+     3   4   6
+The flattened tree should look like:
+
+   1
+    \
+     2
+      \
+       3
+        \
+         4
+          \
+           5
+            \
+             6
+Note that the left child of all nodes should be NULL.
+
+_______________________________________________________________Flatten The Linked List__________________________________________________________
+public class Solution
+{
+    public TreeNode flatten(TreeNode root) 
+    {
+        if(root==null)
+        {
+            return root;
+        }
+        
+        Stack<TreeNode> s=new Stack<>();
+        
+        s.push(root);
+        
+        while(!s.isEmpty())
+        {
+            TreeNode nr=s.pop();
+            if(nr.right!=null)
+            {
+                s.push(nr.right);
+            }
+            if(nr.left!=null)
+            {
+                s.push(nr.left);
+            }
+            
+            if(!s.isEmpty())
+            {
+                nr.right=s.peek();
+            }
+            
+            nr.left=null;
+        }
+        
+        return root;
+        
+        
+    }
+}
