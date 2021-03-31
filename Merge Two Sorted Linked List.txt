@@ -1,0 +1,73 @@
+Merge two sorted linked lists and return it as a new list.
+The new list should be made by splicing together the nodes of the first two lists, and should also be sorted.
+
+For example, given following linked lists :
+
+  5 -> 8 -> 20 
+  4 -> 11 -> 15
+The merged list should be :
+
+4 -> 5 -> 8 -> 11 -> 15 -> 20
+_______________________________________________________________SOLUTION______________________________________________________________________
+public class Solution
+{
+    public ListNode mergeTwoLists(ListNode head1, ListNode head2) 
+    {
+        if(head1==null)
+        {
+            return head2;
+        }
+        if(head2==null)
+        {
+            return head1;
+        }
+        if(head1==null && head2==null)
+        {
+            return head1;
+        }
+        
+        ListNode p1=head1;
+        ListNode p2=head2;
+        
+        ListNode dummy=new ListNode(-1);
+        ListNode create=dummy;
+        while(p1!=null && p2!=null)   //Why and (&&) because we are comparing both the val
+        {
+            if(p1.val<=p2.val)
+            {
+                create.next=new ListNode(p1.val);
+                create=create.next;
+                p1=p1.next;
+            }
+            else 
+            {
+                create.next=new ListNode(p2.val);
+                create=create.next;
+                p2=p2.next;
+            }
+            // else if(p2.val == p1.val)
+            // {
+            //     create.next=new ListNode(p2.val);
+            //     create=create.next;
+            //     p2=p2.next;
+            //     p1=p1.next;
+            // }
+        }
+        
+        while(p1!=null)
+        {
+                create.next=new ListNode(p1.val);
+                create=create.next;
+                p1=p1.next;
+        }
+        while(p2!=null)
+        {
+                create.next=new ListNode(p2.val);
+                create=create.next;
+                p2=p2.next;
+        }
+        
+        return dummy.next;
+        
+    }
+}
