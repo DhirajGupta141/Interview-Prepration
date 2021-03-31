@@ -1,0 +1,62 @@
+Given a sorted linked list, delete all duplicates such that each element appear only once.
+
+For example,
+Given 1->1->2, return 1->2.
+Given 1->1->2->3->3, return 1->2->3.
+
+____________________________________________________________TWO SOLUTION Brute Force and Optimal__________________________________________________
+public class Solution
+{
+    public ListNode deleteDuplicates(ListNode head) 
+    {
+        // //Brute Force
+        if(head==null)
+        {
+            return head;
+        }
+        TreeSet<Integer> set=new TreeSet<Integer>();  // Unique and Sorted
+        
+        ListNode current=head;
+        while(current!=null)
+        {
+            set.add(current.val);
+            current=current.next;
+        }
+        
+        ListNode dummy=new ListNode(-1);
+        ListNode pointer=dummy;
+        
+        for(int val:set)
+        {
+            pointer.next=new ListNode(val);
+            pointer=pointer.next;
+            
+        }
+        
+        return dummy.next;
+        
+        //Optimal Solution
+        if(head==null)
+        {
+            return head;
+        }
+        
+        ListNode current=head;
+        
+        while(current!=null && current.next!=null)  //current.next!=null  --> till
+                                                   // we dont reach to last node
+        {
+            if(current.val == current.next.val)
+            {
+                current.next=current.next.next;
+            }
+            else
+            {
+                current=current.next;
+            }
+        }
+        
+        return head;
+        
+    }
+}
