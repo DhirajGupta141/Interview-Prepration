@@ -1,0 +1,52 @@
+Given a linked list, return the node where the cycle begins. If there is no cycle, return null.
+
+Try solving it using constant additional space.
+
+Example :
+
+Input : 
+
+                  ______
+                 |     |
+                 \/    |
+        1 -> 2 -> 3 -> 4
+
+Return the node corresponding to node 3. 
+___________________________________________________Solution________________
+public class Solution 
+{
+    public ListNode detectCycle(ListNode head)
+    {
+        if(head==null || head.next==null)
+        {
+            return null;
+        }
+        
+        ListNode slow=head;
+        ListNode fast=head;
+        
+        //fast.next!=null for <-- slow =slow.next
+        //fast.next!=null for <-- fast=fast.next.next 
+        //we are making sure that we pass both these condition && we run till that only
+        while(fast.next!=null && fast.next.next!=null)
+        {
+            slow=slow.next;
+            fast=fast.next.next;
+            
+            if(slow == fast)
+            {
+                ListNode temp=head;
+                ListNode slow_temp=slow;
+                
+                while(temp!=slow_temp)
+                {
+                    temp=temp.next;
+                    slow_temp=slow_temp.next;
+                }
+                return temp; // returning node  3
+            }
+        }
+        
+        return null;
+    }
+}
