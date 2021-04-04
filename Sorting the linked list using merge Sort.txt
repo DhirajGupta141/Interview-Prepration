@@ -1,0 +1,73 @@
+Input : 1 -> 3 -> 2
+
+Return 1 -> 2 -> 3
+
+___________________________________________Solution________________________
+public class Solution
+{
+    public ListNode insertionSortList(ListNode head) 
+    {
+        if(head==null || head.next==null)
+        {
+            return head;
+        }
+        
+        ListNode t=head;
+        ListNode slow=head;
+        ListNode fast=head;
+        
+        //fast!=null for <--- even length linked list
+        //fast.next!=null <-- odd length linekd list
+        // && means till the both condition r true;
+        while(fast!=null && fast.next!=null  )
+        {
+            t=slow;    // behind the slow pointer 
+                           //slow will say to t i am going ahead take my place now 
+            slow=slow.next;
+            fast=fast.next.next;
+            
+        }
+        
+        t.next=null;  //first list end
+        // head  ----> start of first list
+        //slow ------> start of second list
+        ListNode left_side=insertionSortList(head);
+        ListNode right_side=insertionSortList(slow);
+        
+        return merge(left_side,right_side);
+    }
+    
+    ListNode merge(ListNode h1,ListNode h2)
+    {
+        ListNode ans=new ListNode(-1);   //ans pointer
+        ListNode pointer=ans;            // pointer for traversal
+        
+        while(h1!=null && h2!=null)
+        {
+            if(h1.val< h2.val)
+            {
+                pointer.next=h1;
+                h1=h1.next;
+            }
+            else  //handling >= condition over here
+            {
+                pointer.next=h2;
+                h2=h2.next;
+            }
+            pointer=pointer.next;
+        }
+        
+        if(h1!=null)
+        {
+            pointer.next=h1;
+          //  h1=h1.next;
+        }
+        if(h2!=null)
+        {
+            pointer.next=h2;
+          //  h2=h2.next;
+        }
+        
+        return ans.next;
+    }
+}
