@@ -1,0 +1,125 @@
+Spiral Matrix
+
+GFG 30day code challenge
+class Solution
+{
+   
+	public int findK(int a[][], int n, int m, int k)
+	{
+	    int dir=0;
+	    int count=0;
+	    int top=0;
+	    int bottom=n-1;
+	    int left=0;
+	    int right=m-1;
+	    
+	    while(top<=bottom && left<=right)
+	    {
+	        if(dir==0)
+	        {
+	            for(int i=left;i<=right;i++)
+	            {
+	                count++;
+	                if(count==k)
+	                {
+	                    return a[top][i];
+	                }
+	            }
+	            
+	            top++;
+	            
+	        }
+	        else if(dir==1)
+	        {
+	            for(int i=top;i<=bottom;i++)
+	            {
+	                count++;
+	                if(count==k)
+	                {
+	                    return a[i][right];
+	                }
+	            }
+	            
+	            right--;
+	        }
+	        else if(dir==2)
+	        {
+	            for(int i=right;i>=left;i--)
+	            {
+	                count++;
+	                if(count==k)
+	                {
+	                    return a[bottom][i];
+	                }
+	                
+	            }
+	            
+	            bottom--;
+	        }
+	        else if(dir==3)
+	        {
+	            for(int i=bottom;i>=top;i--)
+	            {
+	                count++;
+	                if(count==k)
+	                {
+	                    return a[i][left];
+	                }
+	            }
+	            
+	            left++;
+	            
+	        }
+	        
+	        dir=(dir+1)%4;
+	        
+	    }
+	    
+	    return -1;
+	
+	    
+	    
+	}
+	    
+}
+
+//worng interpretation
+
+class Solution
+{
+   
+	public int findK(int a[][], int n, int m, int k)
+	{
+	    int count=0;
+	    
+	    for(int i=0;i<n;i++)
+	    {
+	        if(i%2==0)
+	        {
+	            for(int j=0;j<m;j++)
+	            {
+	                count++;
+	                if(count==k)
+	                {
+	                    return a[i][j];
+	                }
+	            }
+	        }
+	        else
+	        {
+	            for(int j=m-1;j>=0;j--)
+	            {
+	                count++;
+	                if(count==k)
+	                {
+	                    return a[i][j];
+	                }
+	                
+	            }
+	        }
+	    }
+	    
+	    return 0;
+	}
+	
+}
