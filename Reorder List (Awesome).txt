@@ -1,0 +1,91 @@
+Given a singly linked list
+
+    L: L0 → L1 → … → Ln-1 → Ln,
+reorder it to:
+
+    L0 → Ln → L1 → Ln-1 → L2 → Ln-2 → …
+You must do this in-place without altering the nodes’ values.
+
+For example,
+Given {1,2,3,4}, reorder it to {1,4,2,3}.
+
+_________________________________________________SOLUTION_____________________
+// Flow:
+// 1) split the list into two parts using slow and fast pointer techniques
+// 2) Reversing the second half
+// 3) Merging the first and second half that is reversed one.
+// 4) return the head
+public class Solution 
+{
+    public ListNode reorderList(ListNode head) 
+    {
+        if(head==null || head.next==null)
+        {
+            return head;
+        }
+        
+        ListNode left_half=head;
+        
+        //Spliting the list
+        ListNode slow=head;
+        ListNode fast=head;
+        ListNode t=head;
+        
+        while(fast!=null && fast.next!=null)
+        {
+            t=slow;
+            slow=slow.next;
+            fast=fast.next.next;
+        }
+        
+        t.next=null;
+        
+        //Reversing the second half
+        ListNode right_half=reverse(slow);
+        
+        //merging first and second half of the list
+        merge(left_half,right_half);
+        
+        //ans
+        return head;
+        
+    }
+    
+    ListNode reverse(ListNode head)
+    {
+        ListNode new_head=null;
+        ListNode pointer=head;
+        
+        while(pointer!=null)
+        {
+            ListNode next=pointer.next;
+            pointer.next=new_head;
+            new_head=pointer;
+            pointer=next;
+        }
+        
+        return new_head;
+    }
+    
+    
+    void merge(ListNode l1,ListNode l2)
+    {
+        while(l1!=null)
+        {
+            ListNode l1n=l1.next;
+            ListNode l2n=l2.next;
+            
+            
+            l1.next=l2;
+            
+            if(l1n==null)
+            {
+                break;
+            }
+            
+            l2.next=l1n;
+            l1=l1n;
+            l2=l2n;
+        }
+    }
+}
