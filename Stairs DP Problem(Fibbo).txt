@@ -1,0 +1,58 @@
+You are climbing a stair case and it takes A steps to reach to the top.
+
+Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
+
+
+
+Input Format:
+
+The first and the only argument contains an integer A, the number of steps.
+Output Format:
+
+Return an integer, representing the number of ways to reach the top.
+Constrains:
+
+1 <= A <= 36
+Example :
+
+Input 1:
+
+A = 2 Output 1:
+
+2 Explanation 1:
+
+[1, 1], [2] Input 2:
+
+A = 3 Output 2:
+
+3 Explanation 2: 
+
+[1 1 1], [1 2], [2 1]
+______________________________________________Solution______________________
+public class Solution
+{
+    public int climbStairs(int n) 
+    {
+        if(n==0 || n==1)
+        {
+            return 1;
+        }
+        
+        if(n==2)
+        {
+            return 2;
+        }
+        int t[]=new int[n+1];   //Why n+1 because we r taking 0 level as well
+        t[0]=1;  //0 height
+        t[1]=1;  //1 height
+        t[2]=2;  //2 height
+        
+        for(int i=3;i<=n;i++)  // From Height 3 onwards
+        {
+            t[i]=t[i-1]+t[i-2];   // i will be able to reach i only if i have reached i-1 and i-2
+                                  // because we have only two option to climb.
+        }
+        
+        return t[n];  
+    }
+}
