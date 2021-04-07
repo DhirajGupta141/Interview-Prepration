@@ -1,0 +1,106 @@
+Given an 1D integer array A of length N, find the length of longest subsequence which is first increasing then decreasing.
+
+
+
+Problem Constraints
+0 <= N <= 3000
+
+-107 <= A[i] <= 107
+
+
+
+Input Format
+The first and the only argument contains an integer array A.
+
+
+
+Output Format
+Return an integer representing the answer as described in the problem statement.
+
+
+
+Example Input
+Input 1:
+
+ A = [1, 2, 1]
+Input 2:
+
+ A = [1, 11, 2, 10, 4, 5, 2, 1]
+
+
+Example Output
+Output 1:
+
+ 3
+Output 2:
+
+ 6
+
+
+Example Explanation
+Explanation 1:
+
+ [1, 2, 1] is the longest subsequence.
+Explanation 2:
+
+ [1 2 10 4 2 1] is the longest subsequence.
+__________________________________________________Solution______________
+public class Solution 
+{
+    public int longestSubsequenceLength(final List<Integer> a) 
+    {
+        if(a==null || a.size()==0)
+        {
+            return 0;
+        }
+        
+        int lis[]=new int[a.size()];  //Longest Increasing Subsequnce till me
+        int lds[]=new int[a.size()];   //Longest Increasing Subsequnce till me
+        //lis
+        for(int i=0;i<a.size();i++)
+        {
+            int cur_max=0;
+            for(int j=0;j<i;j++)
+            {
+                if(a.get(i)>a.get(j))  // myvalue is greater than comparing value
+                {
+                    if(lis[j]>cur_max)  //checking if that comparing value is better than prev
+                    {
+                        cur_max=lis[j];
+                    }
+                }
+            }
+            lis[i]=cur_max+1;   // you have checked till last value add my value as well
+        }
+        
+        //lds
+        for(int i=a.size()-1;i>=0;i--)
+        {
+            int cur_max=0;
+            for(int j=a.size()-1;j>i;j--)
+            {
+                if(a.get(i)>a.get(j))
+                {
+                    if(lds[j]>cur_max)
+                    {
+                        cur_max=lds[j];
+                    }
+                }
+            }
+            lds[i]=cur_max+1;
+        }
+        
+        
+        int ans=Integer.MIN_VALUE;
+        for(int i=0;i<a.size();i++)
+        {
+            if(lis[i]+lds[i]-1>ans)
+            {
+                ans=lis[i]+lds[i]-1;  //subtracting that peak value 
+            }
+        }
+       
+       return ans;
+            
+    }
+}
