@@ -61,6 +61,21 @@ public class Solution
         // return 0;
         
         //DP
+      A = "abbcdgf"
+      B = "bbadcgf"
+      // 2D array
+        0 1 2 3 4 5 6 7
+          b b a d c g f 
+    0   0 0 0 0 0 0 0 0
+    1 a 0
+    2 b 0
+    3 b 0
+    4 c 0
+    5 d 0
+    6 g 0
+    7 f 0
+    
+      // Reason for i-1 j-1
         int t[][]=new int[m+1][n+1];  //DP ARRAY 
         //Why m+1 <-- to handle 0 length string
         
