@@ -1,0 +1,136 @@
+Given an array of non-negative integers, A, of length N, you are initially positioned at the first index of the array.
+
+Each element in the array represents your maximum jump length at that position.
+
+Return the minimum number of jumps required to reach the last index.
+
+If it is not possible to reach the last index, return -1.
+
+Input Format:
+
+The first and the only argument contains an integer array, A.
+Output Format:
+
+Return an integer, representing the answer as described in the problem statement.
+Constraints:
+
+1 <= N <= 1e6
+0 <= A[i] <= 50000
+Examples:
+
+Input 1:
+    A = [2, 1, 1]
+
+Output 1:
+    1
+    
+Explanation 1:
+    The shortest way to reach index 2 is
+        Index 0 -> Index 2
+    that requires only 1 jump.
+
+Input 2:
+    A = [2,3,1,1,4]
+
+Output 2:
+    2
+
+Explanation 2:
+    The shortest way to reach index 4 is
+        Index 0 -> Index 1 -> Index 4
+    that requires 2 jumps.
+_______________________________________________________SOLUTION_____________________
+public class Solution 
+{
+    //Brute Force But Good
+    boolean ifPossible(int a[])
+    {
+        int last_reachable=a.length-1;
+        
+        for(int i=a.length-1;i>=0;i--)
+        {
+            if(i+a[i]>=last_reachable)
+            {
+              last_reachable=i; 
+            }
+        }
+        
+        return last_reachable==0 ? true:false;
+    }
+    
+    int min_jump_req(int a[])
+    {
+        int jump_array[]=new int[a.length];
+        
+        jump_array[0]=0;
+        
+        for(int i=1;i<a.length;i++)
+        {
+            jump_array[i]=Integer.MAX_VALUE;
+        }
+        
+        for(int i=1;i<a.length;i++)
+        {
+            for(int j=0;j<i;j++)
+            {
+                if(j+a[j] >= i)
+                {
+                    jump_array[i]=Math.min(jump_array[i],jump_array[j]+1);
+                    break;
+                }
+            }
+        }
+        
+        return jump_array[a.length-1];
+    }
+    
+    public int jump(int[] a)
+    {
+        if(a==null ||a.length==0)
+        {
+            return -1;
+        }
+        
+        if(ifPossible(a)==true)
+        {
+            return min_jump_req(a);
+        }
+        else
+        {
+            return -1;
+        }
+    }
+    ________________________________________________________________________________
+    //Optimal
+    public int jump(int a[])
+    {
+        if(a==null || a.length==0)
+        {
+            return -1;
+        }
+        int CI=0;
+        int reach=0;
+        int jumps=0;
+        
+        for(int i=0;i<=reach;i++)
+        {
+            if(i>CI)
+            {
+                jumps++;
+                CI=reach;
+            }
+            
+            if(i+a[i]>reach)
+            {
+                reach=i+a[i];
+            }
+            if(CI>=a.length-1)
+            {
+                return jumps;
+            }
+        }
+        
+        return -1;
+        
+    }
+}
