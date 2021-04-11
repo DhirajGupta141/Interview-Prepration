@@ -1,0 +1,100 @@
+A message containing letters from A-Z is being encoded to numbers using the following mapping:
+
+ 'A' -> 1
+ 'B' -> 2
+ ...
+ 'Z' -> 26
+Given an encoded message A containing digits, determine the total number of ways to decode it modulo 109 + 7.
+
+
+
+Problem Constraints
+1 <= |A| <= 105
+
+
+
+Input Format
+The first and the only argument is a string A.
+
+
+
+Output Format
+Return a single integer denoting the total number of ways to decode it modulo 109 + 7.
+
+
+
+Example Input
+Input 1:
+
+ A = "8"
+Input 2:
+
+ A = "12"
+
+
+Example Output
+Output 1:
+
+ 1
+Output 2:
+
+ 2
+
+
+Example Explanation
+Explanation 1:
+
+ Given encoded message "8", it could be decoded as only "H" (8).
+ The number of ways decoding "8" is 1.
+Explanation 2:
+
+ Given encoded message "12", it could be decoded as "AB" (1, 2) or "L" (12).
+ The number of ways decoding "12" is 2.
+_____________________________________________________________SOLUTION________________________
+public class Solution 
+{
+    public int numDecodings(String s) 
+    {
+        if(s==null )
+        {
+            return 0;
+        }
+        
+        if(s.length()==0)
+        {
+            return 1;
+        }
+        if(s.length()==1)
+        {
+            return s.charAt(0)=='0'? 0:1;
+        }
+        
+        int t[]=new int[s.length()+1];   //why +1 for length 0 as well we have 1 way to decode
+                                         // that is dont decode it
+        
+        t[0]=1;
+        t[1]= s.charAt(0)!='0' ? 1 : 0;
+        
+        //length 2 onward 
+        // why like this only
+        //because from length 2 onward we have 2 choice index 0 or index 01  of length 2& >
+        for(int i=2;i<=s.length();i++ )
+        {
+            int one_dig=Integer.valueOf(s.substring(i-1,i));
+            
+            if(one_dig>=1)
+            {
+                t[i]=t[i]+t[i-1];
+            }
+            
+            int two_dig=Integer.valueOf(s.substring(i-2,i));
+
+            if(two_dig>=10 && two_dig<=26)
+            {
+                t[i]=t[i]+t[i-2];
+            }
+        }
+        
+        return t[s.length()];    // self explanatory | take "12" and dry run over it
+    }
+}
