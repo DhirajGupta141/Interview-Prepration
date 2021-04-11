@@ -1,0 +1,59 @@
+Given a grid of size m * n, lets assume you are starting at (1,1) and your goal is to reach (m,n). At any instance, if you are on (x,y), you can either go to (x, y + 1) or (x + 1, y).
+
+Now consider if some obstacles are added to the grids. How many unique paths would there be?
+An obstacle and empty space is marked as 1 and 0 respectively in the grid.
+
+Example :
+There is one obstacle in the middle of a 3x3 grid as illustrated below.
+
+[
+  [0,0,0],
+  [0,1,0],
+  [0,0,0]
+]
+The total number of unique paths is 2.
+_________________________________________________________SOLUTION________________
+public class Solution 
+{
+     public int uniquePathsWithObstacles(int[][] a)
+     {
+            int[][] t = new int[a.length][a[0].length];
+            
+            //Creating obstacle in the first row and column
+            for(int i=0;i<a.length;i++)
+            {
+               if(a[i][0]!=1)
+               {
+                   t[i][0]=1;
+               }
+               else
+               {
+                   break;
+               }
+            }
+            for(int j=0;j<a[0].length;j++)
+            {
+                if(a[0][j]!=1)
+                {
+                  t[0][j]=1;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            //logic
+            for(int i=1;i<a.length;i++)
+            {
+                 for(int j=1;j<a[i].length;j++)
+                 {
+                      if(a[i][j]!=1)  //chaceking obstacle
+                      {
+                            t[i][j]=t[i-1][j]+t[i][j-1];
+                      }
+                 }
+           }
+
+          return t[a.length-1][a[0].length-1];
+    }
+}
