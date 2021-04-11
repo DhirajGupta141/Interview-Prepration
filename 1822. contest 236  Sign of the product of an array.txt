@@ -1,0 +1,65 @@
+There is a function signFunc(x) that returns:
+
+1 if x is positive.
+-1 if x is negative.
+0 if x is equal to 0.
+You are given an integer array nums. Let product be the product of all values in the array nums.
+
+Return signFunc(product).
+
+ 
+
+Example 1:
+
+Input: nums = [-1,-2,-3,-4,3,2,1]
+Output: 1
+Explanation: The product of all values in the array is 144, and signFunc(144) = 1
+Example 2:
+
+Input: nums = [1,5,0,2,-3]
+Output: 0
+Explanation: The product of all values in the array is 0, and signFunc(0) = 0
+Example 3:
+
+Input: nums = [-1,1,-1,1,-1]
+Output: -1
+Explanation: The product of all values in the array is -1, and signFunc(-1) = -1
+_________________________________________________SOLUTION Actual Multiplication not required count will do here________________________________
+class Solution
+{
+    public int arraySign(int[] a) 
+    {
+        if(a==null || a.length==0)
+        {
+            return 0;
+        }
+        
+        int count=0;
+        boolean isZero= false;
+        
+        for(int i:a)
+        {
+            if(i<0)
+            {
+                count++;
+            }
+            else if(i==0)
+            {
+                isZero=true;
+            }
+        }
+        
+        if(isZero)
+        {
+            return 0;
+        }
+        else if(count%2==0)
+        {
+            return 1;
+        }
+        else
+        {
+            return -1;
+        }
+    }
+}
