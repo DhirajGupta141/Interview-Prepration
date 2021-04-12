@@ -87,7 +87,7 @@ public class Solution
         
         int t[][]=new int[p.length+1][C+1];  // p.length for array lenegth and +1 for 
                                              // zero case
-        // here i is for weight array
+        // here i is for weight array 
         // j is for capacity C
         
         // t[i-1][j]  <-- we are not taking that perticular element
