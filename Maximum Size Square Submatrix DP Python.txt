@@ -1,0 +1,73 @@
+Given a 2D binary matrix A of size  N x M  find the area of maximum size square sub-matrix with all 1's.
+
+
+
+Problem Constraints
+1 <= N, M <= 103
+
+A[i][j] = 1 or A[i][j] = 0
+
+
+
+Input Format
+First argument is an 2D matrix A of size N x M.
+
+
+
+Output Format
+Output the area of maximum size square sub-matrix in A with all 1's.
+
+
+
+Example Input
+Input 1:
+
+ A = [
+
+        [0, 1, 1, 0, 1],
+
+        [1, 1, 0, 1, 0],
+
+        [0, 1, 1, 1, 0],
+
+        [1, 1, 1, 1, 0],
+
+        [1, 1, 1, 1, 1],
+
+        [0, 0, 0, 0, 0]
+     ]
+Input 2:
+
+ A = [
+
+       [1, 1],
+       [1, 1]
+     ]
+
+
+Example Output
+Output 1:
+
+ 9
+Output 2:
+
+ 4
+________________________________________SOLUTION_________________________
+
+class Solution:
+    # @param A : list of list of integers
+    # @return an integer
+    def solve(self, a):
+        t = [[0]*len(a[0]) for i in range(len(a))]  ## creating the dp array
+        max_val = 0
+       
+        for i in range(len(a)):
+            for j in range(len(a[0])):
+                if (i == 0 or j==0):   #first Row first Column
+                    t[i][j] = a[i][j]
+                elif a[i][j]==1:
+                    t[i][j] = min(t[i-1][j-1],t[i-1][j],t[i][j-1])+1 # upper row prev col and diagonal
+                
+                max_val = max(max_val,t[i][j])
+        
+        return max_val**2
