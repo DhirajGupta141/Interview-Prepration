@@ -1,0 +1,83 @@
+Find the largest continuous sequence in a array which sums to zero.
+
+Example:
+
+
+Input:  {1 ,2 ,-2 ,4 ,-4}
+Output: {2 ,-2 ,4 ,-4}
+__________________________________SOLUTION________________________________
+public class Solution 
+{
+    public int[] lszero(int[] a) 
+    {
+        
+        if(a.length==0)
+        {
+            return new int[0];
+        }
+        // 8 -19 8 2  -8 19 5 -2 -23     --> falling on this
+        // int start=0;
+        // int end=0;
+        // int max=Integer.MIN_VALUE;
+        // for(int i=0;i<a.length;i++)
+        // {
+        //     int sum=0;
+        //     for(int j=i;j<a.length;j++)
+        //     {
+        //         sum+=a[j];
+        //         if(sum==0)
+        //         {
+        //             if(j-i+1>max)
+        //             {
+        //                 max=j-i+1;
+        //                 start=i;
+        //                 end=j;
+        //             }
+        //         }
+        //     }
+        // }
+        
+        // int ans[]=new int[end-start+1];
+        // int idx=0;
+        // for(int i=start;i<=end;i++)
+        // {
+        //     ans[idx++]=a[i];
+        // }
+        
+        HashMap<Integer,Integer> m=new HashMap<Integer,Integer>();
+        m.put(0,-1);             // To handle 1 2 3 -3 case;  if u dont understand run by 
+                                 // removing this line
+        int end=0;
+        int dis=0;
+        int max=Integer.MIN_VALUE;
+        int sum=0;
+        for(int i=0;i<a.length;i++)
+        {
+            sum+=a[i];
+            
+            if(m.containsKey(sum))
+            {
+                dis=i-m.get(sum);
+            }
+            else
+            {
+                m.put(sum,i);
+            }
+            
+            if(dis>max)
+            {
+                max=dis;
+                end=i;   //Ending Index Of that zero sumarray
+            }
+        }
+        
+        int ans[]=new int[max];
+        int idx=0;
+        for(int i=end-max+1;i<=end;i++)
+        {
+            ans[idx++]=a[i];
+        }
+        
+        return ans;
+    }
+}
