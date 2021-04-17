@@ -1,0 +1,71 @@
+Given an array S of n integers, are there elements a, b, c, and d in S such that a + b + c + d = target? Find all unique quadruplets
+ in the array which gives the sum of target.
+
+ Note:
+Elements in a quadruplet (a,b,c,d) must be in non-descending order. (ie, a ≤ b ≤ c ≤ d)
+The solution set must not contain duplicate quadruplets.
+Example :
+Given array S = {1 0 -1 0 -2 2}, and target = 0
+A solution set is:
+
+    (-2, -1, 1, 2)
+    (-2,  0, 0, 2)
+    (-1,  0, 0, 1)
+Also make sure that the solution set is lexicographically sorted.
+Solution[i] < Solution[j] iff Solution[i][0] < Solution[j][0] OR (Solution[i][0] == Solution[j][0] AND ... Solution[i][k] < Solution[j][k])
+
+__________________________________________________________________SOLUTION_____________________________________________________________
+public class Solution 
+{
+    public ArrayList<ArrayList<Integer>> fourSum(ArrayList<Integer> a, int t)
+    {
+        if(a.size()==0)
+        {
+            return new ArrayList<ArrayList<Integer>>(); // Or ArrayList<>();
+        }
+        
+        LinkedHashSet<ArrayList<Integer>> res =new LinkedHashSet<>();
+        
+        Collections.sort(a);
+        
+        for(int i=0;i<=a.size()-4;i++)  //first element
+        {
+            for(int j=i+1;j<=a.size()-3;j++)  //second element
+            {
+                int l=j+1;
+                int h= a.size()-1;
+                int t2=t-a.get(i)-a.get(j);
+                while(l<h)                          //for the third and the fourth element
+                {
+                    if(a.get(l)+a.get(h)==t2)
+                    {
+                        ArrayList<Integer> subans=new ArrayList<Integer>(); //subans
+                        subans.add(a.get(i));
+                        subans.add(a.get(j));
+                        subans.add(a.get(l));
+                        subans.add(a.get(h));
+                        
+                        res.add(subans);
+                        
+                        l++;
+                        h--;
+                    }
+                    else if(a.get(l)+a.get(h)>t2)
+                    {
+                        h--;
+                    }
+                    else
+                    {
+                        l++;
+                    }
+                }
+            }
+        }
+        
+        
+        return new ArrayList<ArrayList<Integer>>(res);//Passing the Linked HashSet
+                         //that LinkedHashSet Contains a ArrayList
+        
+        
+    }
+}
