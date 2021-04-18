@@ -1,0 +1,65 @@
+Given a collection of candidate numbers (C) and a target number (T), find all unique combinations in C where the candidate numbers sums to T.
+
+Each number in C may only be used once in the combination.
+
+ Note:
+All numbers (including target) will be positive integers.
+Elements in a combination (a1, a2, … , ak) must be in non-descending order. (ie, a1 ≤ a2 ≤ … ≤ ak).
+The solution set must not contain duplicate combinations.
+Example :
+
+Given candidate set 10,1,2,7,6,1,5 and target 8,
+
+A solution set is:
+
+[1, 7]
+[1, 2, 5]
+[2, 6]
+[1, 1, 6]
+_________________________________________SOLUTION_________________________________________________
+public class Solution
+{
+    void helper(int idx,ArrayList<Integer> a,int t,ArrayList<ArrayList<Integer>> ans
+    ,ArrayList<Integer> subans)
+    {
+        //Condition to add in answer
+        // In this Base case and subset1 and subset2 base case only difference is that 
+        // there we had to generate all subsets so added subans to ans without any conditio
+        // because we had to generate all subsets only 
+        // but here we need to add only when our target becomes Zero(0)
+        if(t==0) //if we have reached to our target
+        {
+            ans.add(new ArrayList<>(subans));
+            return;
+        }
+        
+        
+        for(int i=idx;i<a.size();i++)
+        {
+            //i>idx so that we do not miss the first occurance of that element
+            if(i>idx && a.get(i)==a.get(i-1))
+            {
+                continue;
+            }
+            
+            if(a.get(i)>t)
+            {
+                break;
+            }
+            subans.add(a.get(i));
+            helper(i+1,a,t-a.get(i),ans,subans); //subtracting the current element form target
+            subans.remove(subans.size()-1);
+        }
+    }
+    public ArrayList<ArrayList<Integer>> combinationSum(ArrayList<Integer> a, int t) 
+    {
+        if(a.size()==0)
+        {
+            return new ArrayList<>();
+        }
+        ArrayList<ArrayList<Integer>> ans=new ArrayList<>();
+        Collections.sort(a);
+        helper(0,a,t,ans,new ArrayList<>());
+        return ans;
+    }
+}

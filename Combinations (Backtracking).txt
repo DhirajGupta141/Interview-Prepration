@@ -1,0 +1,56 @@
+Given two integers n and k, return all possible combinations of k numbers out of 1 2 3 ... n.
+
+Make sure the combinations are sorted.
+
+To elaborate,
+
+Within every entry, elements should be sorted. [1, 4] is a valid entry while [4, 1] is not.
+Entries should be sorted within themselves.
+Example :
+If n = 4 and k = 2, a solution is:
+
+[
+  [1,2],
+  [1,3],
+  [1,4],
+  [2,3],
+  [2,4],
+  [3,4],
+]
+____________________________________________________________SOLUTION_____________________________________
+public class Solution
+{
+    void helper(int idx,int a[],int k,ArrayList<ArrayList<Integer>> ans,ArrayList<Integer>subans)
+    {
+        if(subans.size()==k)  //checking if we have K elements in our subanswer
+        {
+            ans.add(new ArrayList<>(subans));
+            return;
+        }
+        
+        //iterating to the given array
+        for(int i=idx;i<a.length;i++)
+        {
+            subans.add(a[i]);  //adding the current element to the subans
+            helper(i+1,a,k,ans,subans);
+            subans.remove(subans.size()-1);
+        }
+    }
+    
+    public ArrayList<ArrayList<Integer>> combine(int n, int k) 
+    {
+        if(n==0)
+        {
+            return new ArrayList<>();
+        }
+        int a[]=new int[n];
+        for(int i=0;i<n;i++)  //gererating the array for combination form 1 to n
+        {
+            a[i]=i+1;
+        }
+        ArrayList<ArrayList<Integer>>ans=new ArrayList<>(); //anser ArrayList
+        helper(0,a,k,ans,new ArrayList<>());
+        
+        return ans;
+    }
+}

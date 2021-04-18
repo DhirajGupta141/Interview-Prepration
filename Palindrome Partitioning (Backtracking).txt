@@ -1,0 +1,70 @@
+Given a string s, partition s such that every string of the partition is a palindrome.
+
+Return all possible palindrome partitioning of s.
+
+For example, given s = "aab",
+Return
+
+  [
+    ["a","a","b"]
+    ["aa","b"],
+  ]
+ Ordering the results in the answer : Entry i will come before Entry j if :
+len(Entryi[0]) < len(Entryj[0]) OR
+(len(Entryi[0]) == len(Entryj[0]) AND len(Entryi[1]) < len(Entryj[1])) OR
+*
+*
+*
+(len(Entryi[0]) == len(Entryj[0]) AND … len(Entryi[k] < len(Entryj[k]))
+In the given example,
+["a", "a", "b"] comes before ["aa", "b"] because len("a") < len("aa")
+
+
+
+________________________________________________________________SOLUTION_____________________________
+public class Solution 
+{
+    boolean isPal(String a,int start,int end)
+    {
+        while(start<=end)
+        {
+            if(a.charAt(start)!=a.charAt(end))
+            {
+                return false;
+            }
+            else
+            {
+                start++;
+                end--;
+            }
+        }
+        return true;
+    }
+    void helper(int idx,String a,ArrayList<ArrayList<String>>ans,ArrayList<String>subans)
+    {
+        //if we have tried all the combinations
+        if(idx==a.length())
+        {
+            ans.add(new ArrayList<>(subans));
+            return;
+        }
+        for(int i=idx;i<a.length();i++)
+        {
+            // start index is idx and the end index is i
+            if(isPal(a,idx,i))
+            {
+                subans.add(a.substring(idx,i+1));  //adding that substring to our subans
+                helper(i+1,a,ans,subans);
+                subans.remove(subans.size()-1); //backtrack by removig the last substring
+            }
+        }
+    }
+    
+    public ArrayList<ArrayList<String>> partition(String a)
+    {
+        
+        ArrayList<ArrayList<String>>ans=new ArrayList<>();
+        helper(0,a,ans,new ArrayList<>());
+        return ans;
+    }
+}

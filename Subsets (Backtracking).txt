@@ -1,0 +1,52 @@
+Given a set of distinct integers, S, return all possible subsets.
+
+ Note:
+Elements in a subset must be in non-descending order.
+The solution set must not contain duplicate subsets.
+Also, the subsets should be sorted in ascending ( lexicographic ) order.
+The list is not necessarily sorted.
+Example :
+
+If S = [1,2,3], a solution is:
+
+[
+  [],
+  [1],
+  [1, 2],
+  [1, 2, 3],
+  [1, 3],
+  [2],
+  [2, 3],
+  [3],
+]
+____________________________________________SOLUTION________________________
+public class Solution
+{
+    void helper(int idx,ArrayList<Integer> a,ArrayList<ArrayList<Integer>> ans,
+    ArrayList<Integer> subans)
+    {
+        //No condition is required to add it to answer
+        ans.add(new ArrayList<>(subans));
+        
+        //Why For loop Because our answer could start from 0 index or 1 index or 2 index ...
+        for(int i=idx;i<a.size();i++)
+        {
+            subans.add(a.get(i));  //Adding to subans
+            helper(i+1,a,ans,subans);    // Calling to next elemet
+            subans.remove(subans.size()-1);  // After compeleting left recursion
+        }
+        
+    }
+    public ArrayList<ArrayList<Integer>> subsets(ArrayList<Integer> a) 
+    {
+        ArrayList<ArrayList<Integer>> ans=new ArrayList<>();
+        
+        Collections.sort(a);  //to get the answer in lexicographic order
+        
+        helper(0, a , ans , new ArrayList<>());
+        
+        //Collections.sort(ans);
+        return ans;
+        
+    }
+}
