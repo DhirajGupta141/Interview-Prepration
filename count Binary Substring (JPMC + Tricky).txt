@@ -1,0 +1,118 @@
+Give a string s, count the number of non-empty (contiguous) substrings that have the same number of 0's and 1's,
+ and all the 0's and all the 1's in these substrings are grouped consecutively.
+
+Substrings that occur multiple times are counted the number of times they occur.
+Input: "00110011"
+Output: 6
+Explanation: There are 6 substrings that have equal number of consecutive 1's and 0's: "0011", "01", "1100", "10", "0011", and "01".
+
+Notice that some of these substrings repeat and are counted the number of times they occur.
+
+Also, "00110011" is not a valid substring because all the 0's (and 1's) are not grouped together.
+Example 2:
+Input: "10101"
+Output: 4
+Explanation: There are 4 substrings: "10", "01", "10", "01" that have equal number of consecutive 1's and 0's.
+____________________________________________________________SOLUTION__________________________________________________________________
+class Solution:
+    def countBinarySubstrings(self , s: str) -> int:
+        i=1  #indexing the string
+        ans=0
+        prev=0  #count of 1 or 0
+        curr=1 #count of 1 or 0
+        
+        while(i<len(s)):
+            if(s[i-1]!=s[i]):
+                ans=ans+min(prev,curr)   #min count of 0 or 1
+                prev=curr
+                curr=1     # updating for the current character
+            else:
+                curr=curr+1
+            i=i+1
+            
+        ans=ans+min(prev,curr)
+        return ans
+_______________________________________________________________________________BRUTEFORCE TRIAL____________________passed 28/58__________________
+class Solution
+{
+    boolean isValid(String sub)
+    {
+        if(sub.length()==2)
+        {
+            if(sub.charAt(0)=='0' && sub.charAt(1)=='1')
+            {
+                return true;
+            }
+            else if(sub.charAt(0)=='1' && sub.charAt(1)=='0')
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        
+        Stack<Character> s=new Stack<Character>();
+        boolean flag=true;
+        for(char c:sub.toCharArray())
+        {
+            if(c=='0' && flag==true)
+            {
+                s.push(c);
+            }
+            else 
+            {
+                if(s.size()>0)
+                {
+                    s.pop();
+                    flag=false;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        
+        return  s.isEmpty()==true?true:false;
+    }
+    
+    public int countBinarySubstrings(String s) 
+    {
+        int ans=0;
+        for(int i=0;i<s.length();i++)
+        {
+            for(int j=i;j<s.length();j++)
+            {
+                String sub=s.substring(i,j+1);
+                
+                if(sub.length()%2==0)
+                {
+                    if(isValid(sub))
+                    {
+                        ans++;
+                    }
+                }
+            }
+        }
+        
+        return ans;
+    }
+}
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
