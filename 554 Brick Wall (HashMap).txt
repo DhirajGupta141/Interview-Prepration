@@ -1,0 +1,49 @@
+There is a brick wall in front of you. The wall is rectangular and has several rows of bricks. The bricks have the same height
+ but different width. You want to draw a vertical line from the top to the bottom and cross the least bricks.
+
+The brick wall is represented by a list of rows. Each row is a list of integers representing the width of each brick in this 
+row from left to right.
+
+If your line go through the edge of a brick, then the brick is not considered as crossed. You need to find out how to draw the 
+line to cross the least bricks and return the number of crossed bricks.
+
+You cannot draw a line just along one of the two vertical edges of the wall, in which case the line will obviously cross no bricks.
+
+Input: [[1,2,2,1],
+        [3,1,2],
+        [1,3,2],
+        [2,4],
+        [3,1,2],
+        [1,3,1,1]]
+
+Output: 2
+
+Explanation: 
+
+___________________________________________________________________________Solution_______________________________________________________________
+class Solution 
+{
+    public int leastBricks(List<List<Integer>> wall)
+    {
+        // touched + untouched = total number of rows
+        
+        HashMap<Integer,Integer>m=new HashMap<>();
+        
+        int untouch_brick_of_each_row=0;
+        
+        for(List<Integer> row_brick:wall)
+        {
+            int end_brick_sum=0;  //each row sum would be zero initially
+            for(int i=0 ; i<row_brick.size()-1; i++)  //excluding the last brick as the sum would remain same 
+            {
+                end_brick_sum=end_brick_sum + row_brick.get(i);
+                m.put( end_brick_sum , m.getOrDefault(end_brick_sum,0)+1 ); //checking if sumalready exists
+                untouch_brick_of_each_row=Math.max(untouch_brick_of_each_row,m.get(end_brick_sum));
+            }
+        }
+        
+        return wall.size()-untouch_brick_of_each_row;
+        
+        
+    }
+}
