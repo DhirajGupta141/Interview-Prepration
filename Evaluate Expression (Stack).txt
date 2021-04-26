@@ -1,0 +1,92 @@
+Evaluate the value of an arithmetic expression in Reverse Polish Notation.
+
+Valid operators are +, -, *, /. Each operand may be an integer or another expression.
+
+
+
+Input Format
+
+The only argument given is character array A.
+Output Format
+
+Return the value of arithmetic expression formed using reverse Polish Notation.
+For Example
+
+Input 1:
+    A =   ["2", "1", "+", "3", "*"]
+Output 1:
+    9
+Explaination 1:
+    starting from backside:
+    *: ( )*( )
+    3: ()*(3)
+    +: ( () + () )*(3)
+    1: ( () + (1) )*(3)
+    2: ( (2) + (1) )*(3)
+    ((2)+(1))*(3) = 9
+    
+Input 2:
+    A = ["4", "13", "5", "/", "+"]
+Output 2:
+    6
+Explaination 2:
+    +: ()+()
+    /: ()+(() / ())
+    5: ()+(() / (5))
+    1: ()+((13) / (5))
+    4: (4)+((13) / (5))
+    (4)+((13) / (5)) = 6
+
+____________________________________________________________________SOLUTION___________________________________
+public class Solution
+{
+    public int evalRPN(String[] a) 
+    {
+            //Remember that the given array is of string array 
+            // means each index value is a string value
+            //thats why we are able to use .equals() method
+            // Because String has method equals()
+            
+            if(a.length==0 ||a==null)
+            {
+                return 0;
+            }
+            
+            Stack<Integer> s=new Stack<Integer>();//for storing the oprants
+            
+            for(int i=0;i<a.length;i++)
+            {
+                if(a[i].equals("/"))
+                {
+                    int n1=s.pop();
+                    int n2=s.pop();
+                    s.push(n2/n1); //calculating and then pushing back to the stack
+                }
+                else if(a[i].equals("*"))
+                {
+                    int n1=s.pop();
+                    int n2=s.pop();
+                    s.push(n2*n1);
+                }
+                else if(a[i].equals("+"))
+                {
+                    int n1=s.pop();
+                    int n2=s.pop();
+                    s.push(n2+n1);
+                }
+                else if(a[i].equals("-"))
+                {
+                    int n1=s.pop();
+                    int n2=s.pop();
+                    s.push(n2-n1);
+                }
+                else
+                {
+                    s.push(Integer.parseInt(a[i]));  //converting string to integer
+                }
+            }
+            
+            return s.peek();  //ya fir s.pop();
+            
+    }
+}
