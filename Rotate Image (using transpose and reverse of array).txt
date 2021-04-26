@@ -1,0 +1,66 @@
+You are given an n x n 2D matrix representing an image, rotate the image by 90 degrees (clockwise).
+
+You have to rotate the image in-place, which means you have to modify the input 2D matrix directly.
+ DO NOT allocate another 2D matrix and do the rotation.
+
+ 
+Example 1:
+
+
+Input: matrix = [[1,2,3],[4,5,6],[7,8,9]]
+Output: [[7,4,1],[8,5,2],[9,6,3]]
+Example 2:
+
+
+Input: matrix = [[5,1,9,11],[2,4,8,10],[13,3,6,7],[15,14,12,16]]
+Output: [[15,13,2,5],[14,3,4,1],[12,6,8,9],[16,7,10,11]]
+Example 3:
+
+Input: matrix = [[1]]
+Output: [[1]]
+Example 4:
+
+Input: matrix = [[1,2],[3,4]]
+Output: [[3,1],[4,2]]
+________________________________________________________________________SOLUTION INPLACE___________________________________________________________
+class Solution
+{
+    public void rotate(int[][] m)
+    {
+     
+        if(m.length==0 || m==null)
+        {
+            return;
+        }
+        
+        int row=m.length;   //number of rows of image
+        int col=m[0].length; // number of column of image
+        
+        // first transpose the and then reverse that row
+        for(int i=0;i<row;i++)
+        {
+            //transpose
+            for(int j=i;j<col;j++)//starting from i so that we dont get that image again(u get if u start from 0)
+            {
+                int temp=m[i][j];
+                m[i][j]=m[j][i];
+                m[j][i]=temp;
+            }
+            
+            //reversing the row( remember that row is fixed that is ith row we need to just iterate over column)
+            int left=0;   // start from column 0 
+            int right=col-1;  //end column is col-1
+            
+            while(left<=right) // row is same that is ith row
+            {
+                int temp=m[i][right];  //taking the last value of the ith row
+                m[i][right]=m[i][left];
+                m[i][left]=temp;
+                
+                left++;
+                right--;
+            }
+        }
+        return;
+    }
+}
