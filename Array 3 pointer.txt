@@ -1,0 +1,52 @@
+You are given 3 arrays A, B and C. All 3 of the arrays are sorted.
+
+Find i, j, k such that :
+max(abs(A[i] - B[j]), abs(B[j] - C[k]), abs(C[k] - A[i])) is minimized.
+Return the minimum max(abs(A[i] - B[j]), abs(B[j] - C[k]), abs(C[k] - A[i]))
+
+**abs(x) is absolute value of x and is implemented in the following manner : **
+
+      if (x < 0) return -x;
+      else return x;
+Example :
+
+Input : 
+        A : [1, 4, 10]
+        B : [2, 15, 20]
+        C : [10, 12]
+
+Output : 5 
+         With 10 from A, 15 from B and 10 from C. 
+___________________________________________________SOLUTION___________________________________________
+public class Solution 
+{
+    // DO NOT MODIFY THE ARGUMENTS WITH "final" PREFIX. IT IS READ ONLY
+    public int minimize(final int[] a, final int[] b, final int[] c) 
+    {
+        int ans=Integer.MAX_VALUE;
+        
+        int p1=0;
+        int p2=0;
+        int p3=0;
+        
+        while(p1<a.length && p2<b.length && p3<c.length)
+        {
+            ans=Math.min(ans,Math.max(Math.abs(a[p1]-b[p2]),Math.max(Math.abs(b[p2]-c[p3]),Math.abs(c[p3]-a[p1]))));
+         // if we incease the smallest value then it will decrease the difference and the result will be minimized eventually
+            if(a[p1]<=b[p2] && a[p1]<=c[p3])
+            {
+                p1++;
+            }
+            else if(b[p2]<=c[p3] && b[p2]<=a[p1])
+            {
+                p2++;
+            }
+            else
+            {
+                p3++;
+            }
+        }
+        
+        return ans;
+    }
+}
