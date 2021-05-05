@@ -1,0 +1,53 @@
+          
+           **Here Point is a class having two instance variables x and y that is coordinates
+           void coordinate_sort(Point points[])
+	    {
+		
+    		//I dont Know if this will run
+    		Class Point implements Comparable<Point>()
+    		{
+    		    int x;
+    		    int y;
+    		    
+    		    Point(int x,int y)
+    		    {
+    		        this.x=x;
+    		        this.y=y;
+    		    }
+    		    
+    		    public int compareTo(Point o)
+    		    {
+    		        if(this.x==o.x)
+    		        {
+    		            return this.y-o.y;
+    		        }
+    		        else
+    		        {
+    		            return this.x-o.x;
+    		        }
+    		    }
+    		}
+    		
+    		//Using Labda Function:
+    		Arrays.sort(points,((a,b)->a.x==b.x?a.y-b.y:a.x-b.x));
+    		
+    		
+    		//Using Comparator
+    		Arrays.sort(points,comp);
+    		Comparator<Point> comp=new Comparator<Point>()
+    		{
+    		    public int compare(Point o1,Point o2)
+    		    {
+    		        if(o1.x==o2.x)
+    		        {
+    		            return o1.y-o2.y;
+    		        }
+    		        else
+    		        {
+    		            return o1.x-o2.x;
+    		        }
+    		    }
+    		};
+    		
+	    }//end of method
+		
