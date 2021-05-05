@@ -1,0 +1,81 @@
+Given a collection of intervals, merge all overlapping intervals.
+
+For example:
+
+Given [1,3],[2,6],[8,10],[15,18],
+
+return [1,6],[8,10],[15,18].
+
+Make sure the returned intervals are sorted.
+
+_____________________________________SOLUTION_______________________________
+/**
+ * Definition for an interval.
+ * public class Interval 
+ * {
+ *     int start;  instance variables
+ *     int end;    instance variables
+ *     Interval() 
+ *     { start = 0; end = 0; }
+ *     Interval(int s, int e) { start = s; end = e; } ///constructor
+ * }
+ */
+public class Solution 
+{
+    public ArrayList<Interval> merge(ArrayList<Interval> intervals) 
+    {
+        if(intervals.size()==0|| intervals==null)
+        {
+            return new ArrayList<Interval>();
+        }
+        
+        // Comparator<Interval> sort_with_comp=new Comparator<Interval>()
+        // {
+        //     //@override;
+        //     public int compare(Interval o1,Interval o2)
+        //     {
+        //         return o1.start-o2.start;
+        //     }
+        // };
+        
+        // //Instead of writting comparartor; HAHA HAHA!!!
+        // intervals is a arraylist and when we iterate it it gives a class of Type Intereval
+        
+        // class Interval has two instance variables start and end
+        Collections.sort(intervals,(a,b)->a.start-b.start);
+        //Basically we sort the arrays right of integer type
+        //but here we are sorting the array is of type class(object)
+        //so the comparator function inside the sort method dont know that
+        //how to sort the objects so we need to provide this (a,b)->a.start-b.start
+        
+        //intervals.sort(sort_with_comp);
+        
+        ArrayList<Interval> ans=new ArrayList<Interval>();
+        
+        Interval prev_int=intervals.get(0);  //because intervals is of type Interval 
+        // relate it with ArrayList<Integer> to understand the return type of above code
+        
+        for(int i=1;i<intervals.size();i++)
+        {
+            Interval cur_int=intervals.get(i);
+            
+            if(cur_int.start<=prev_int.end) //means prev khatam hone se pahle hi start ho raha hai
+            {  //1-->[1,3]  2-->[2,6]
+                prev_int.start=Math.min(prev_int.start,cur_int.start);
+                prev_int.end=Math.max(prev_int.end,cur_int.end);
+                
+            }
+            else
+            {
+                ans.add(new Interval(prev_int.start,prev_int.end)); //We Make objects using
+                //new keyword  because here we need to return a arraylist of type class
+                prev_int=cur_int;
+            }
+        }
+        
+        ans.add(new Interval(prev_int.start,prev_int.end));
+        
+        return ans;
+        
+    }
+}
