@@ -1,0 +1,54 @@
+Given an array of non-negative integers nums, you are initially positioned at the first index of the array.
+
+Each element in the array represents your maximum jump length at that position.
+
+Your goal is to reach the last index in the minimum number of jumps.
+
+You can assume that you can always reach the last index.
+
+ 
+
+Example 1:
+
+Input: nums = [2,3,1,1,4]
+Output: 2
+Explanation: The minimum number of jumps to reach the last index is 2. Jump 1 step from index 0 to 1, then 3 steps to the last index.
+Example 2:
+
+Input: nums = [2,3,0,1,4]
+Output: 2
+________________________________________________________________SOLUTION________________________________________________________________________
+class Solution 
+{
+    public int jump(int[] a) 
+    {
+        if(a[0]==0 || a.length==1)
+        {
+            return 0;
+        }
+        
+        int longest_jump_possible=a[0];
+        int curr_max_reach=a[0];
+        int jumps=1; //made the first jump as index 0 value
+        
+        for(int i=1;i<a.length;i++) //trying the middle possible values
+        {
+            if(i==a.length-1) //tried all the possible position and reached to the end
+            {
+                return jumps;
+            }
+            
+            longest_jump_possible=Math.max(longest_jump_possible,i+a[i]); //considering bich ke possible jumps
+            
+            if(i==curr_max_reach)  //means we have covered all the possible bich ke values now we need to make                                      the jump
+            {
+                jumps++;
+                curr_max_reach=longest_jump_possible;   //
+            }
+            
+        }
+        
+        return jumps;
+        
+    }
+}
