@@ -1,0 +1,63 @@
+Given an undirected graph with V vertices and E edges, check whether it contains any cycle or not. 
+
+Example 1:
+
+Input:   
+
+Output: 1
+Explanation: 1->2->3->4->1 is a cycle.
+Example 2:
+
+Input:
+ 
+
+Output: 0
+Explanation: No cycle in the graph.
+
+_____________________________________________________________SOLUUTION________________________
+
+class Solution
+{
+    
+    boolean dfsHelper(int idx, int parent,boolean vis[]
+                                ,ArrayList<ArrayList<Integer>> adj)
+    {
+        vis[idx]=true;
+        
+        for(int ele:adj.get(idx))
+        {
+            if(vis[ele]==false)
+            {
+                if(dfsHelper(ele,idx,vis,adj))//going depth if some one returns true
+                    return true;
+            }
+            else
+            {
+                if(parent!=ele)//if current element is not parent and it is already visisted means cycle is there for sure 
+                {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+    
+    public boolean isCycle(int V, ArrayList<ArrayList<Integer>> adj)
+    {
+        boolean vis[]=new boolean[V];
+        
+        for(int i=0;i<V;i++)
+        {
+            if(vis[i]==false)
+            {
+                if(dfsHelper(i,-1,vis,adj)) // -1 is parent or prev element
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+        
+    }
+}
