@@ -1,0 +1,56 @@
+Given the root of a binary tree, flatten the tree into a "linked list":
+
+The "linked list" should use the same TreeNode class where the right child pointer points to the next node in the list and the left child pointer is always null.
+The "linked list" should be in the same order as a pre-order traversal of the binary tree.
+ 
+
+Example 1:
+
+
+Input: root = [1,2,5,3,4,null,6]
+Output: [1,null,2,null,3,null,4,null,5,null,6]
+Example 2:
+
+Input: root = []
+Output: []
+Example 3:
+
+Input: root = [0]
+Output: [0]
+
+
+______________________________________________________________SOLUTION____________________________
+
+//to understand better use tree node and do dtry run on it
+class Solution
+{
+    public void flatten(TreeNode root)
+    {
+        if(root==null)
+        {
+            return;
+        }
+        
+        
+        TreeNode temp_left = root.left;
+        TreeNode temp_right = root.right;
+        
+        root.left=null;   //this is must to make left as null
+        
+        //to do the above steps for all the nodes
+        flatten(temp_left);
+        flatten(temp_right);
+        
+        root.right=temp_left;//attaching the left flatten tree to root because we need to preserve the root node
+        
+        TreeNode for_right_bottom_reach=root;  //going bottom of root so that we could attach temp_right
+        
+        while(for_right_bottom_reach.right!=null) 
+        {
+            for_right_bottom_reach=for_right_bottom_reach.right;
+        }
+        
+        for_right_bottom_reach.right=temp_right; //reached to bottom now attach the temp_right
+        
+    }
+}
