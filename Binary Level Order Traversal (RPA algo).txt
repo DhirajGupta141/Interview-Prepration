@@ -1,0 +1,127 @@
+Given the root of a binary tree, return the level order traversal of its nodes' values. (i.e., from left to right, level by level).
+
+ 
+
+Example 1:
+
+
+Input: root = [3,9,20,null,null,15,7]
+Output: [[3],[9,20],[15,7]]
+Example 2:
+
+Input: root = [1]
+Output: [[1]]
+Example 3:
+
+Input: root = []
+Output: []
+_________________________________________________SOLUTION__________________________________
+Using two Queue
+class Solution
+{
+    public List<List<Integer>> levelOrder(TreeNode root)
+    {
+        if(root==null)
+        {
+            return new ArrayList<>();
+        }
+        
+        List<List<Integer>> ans=new ArrayList<>();
+        
+        Queue<TreeNode> mq=new LinkedList<>(); //mainqueue
+        Queue<TreeNode> cq=new LinkedList<>(); //child queue
+        
+        
+        mq.add(root);
+        
+        while(!mq.isEmpty())
+        {
+            //level change
+            int size=mq.size();
+            List<Integer> subans=new ArrayList<>();
+            
+            for(int i=0;i<size;i++)
+            {
+                TreeNode temp=mq.remove();
+                subans.add(temp.val);
+                
+                if(temp.left!=null)
+                {
+                    cq.add(temp.left);
+                }
+                
+                if(temp.right!=null)
+                {
+                    cq.add(temp.right);
+                }
+            }
+            
+            if(mq.isEmpty())
+            {
+                ans.add(subans);
+                mq=cq;
+                cq= new LinkedList<>();
+            }
+        }
+        
+        return ans;
+        
+        
+    }
+}
+
+Using single queue
+
+
+class Solution 
+{
+    public List<List<Integer>> levelOrder(TreeNode root)
+    {
+        List<List<Integer>>ans=new ArrayList<>();
+        if(root==null)
+        {
+            return ans;
+        }
+        Queue<TreeNode> mq=new ArrayDeque<TreeNode>();
+       // Queue<TreeNode> cq=new ArrayDeque<TreeNode>();
+        
+        mq.add(root);
+        
+        while(!mq.isEmpty())
+        {
+            int size=mq.size();
+            List<Integer> subAns=new ArrayList<Integer>();
+            
+            for(int i=0;i<size;i++)
+            {
+                //RPA Algoritm
+                TreeNode temp=mq.remove();
+                
+                subAns.add(temp.val);
+                
+                if(temp.left!=null)
+                {
+                    mq.add(temp.left);
+                }
+                if(temp.right!=null)
+                {
+                    mq.add(temp.right);
+                }
+                
+            }
+            
+            // if(mq.isEmpty())
+            // {
+            //     mq=cq;
+            //     cq=new ArrayDeque<TreeNode>();
+            //     ans.add(subAns);
+            // }
+            ans.add(subAns);
+            
+        }
+        
+        return ans;
+        
+        
+    }
+}
