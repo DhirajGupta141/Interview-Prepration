@@ -1,0 +1,78 @@
+Given an undirected graph and an integer M. The task is to determine if the graph can be colored with at most M colors such that no two adjacent vertices of the graph are colored with the same color. Here coloring of a graph means the assignment of colors to all vertices. Print 1 if it is possible to colour vertices and 0 otherwise.
+
+Example 1:
+
+Input:
+N = 4
+M = 3
+E = 5
+Edges[] = {(1,2),(2,3),(3,4),(4,1),(1,3)}
+Output: 1
+Explanation: It is possible to colour the
+given graph using 3 colours.
+Example 2:
+
+Input:
+N = 3
+M = 2
+E = 3
+Edges[] = {(1,2),(2,3),(1,3)}
+Output: 0
+________________________________________________SOLUTION_________________________________
+class solve 
+{
+    //Function to determine if graph can be coloured with at most M colours such
+    //that no two adjacent vertices of graph are coloured with same colour.
+   
+    
+    static boolean isValid(int idx,int cur_col,List<Integer> []g ,int color[],int m)
+    {
+        for(int it: g[idx])
+        {
+            if(color[it]==cur_col)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    static boolean dfs(int idx,List<Integer>[] g, int[] color, int m, int n)
+    {
+        if(idx==n)
+        {
+            return true;
+        }
+        
+        for(int i=1;i<=m;i++)
+        {
+            if(isValid(idx,i,g,color,m))
+            {
+                color[idx]=i;
+                if(dfs(idx+1,g,color,m,n)) //going depth
+                {
+                    return true;
+                }
+                color[idx]=0;
+                
+            }
+        }
+        
+        return false;// ran a loop of all the colors but it doesnt work so return false
+    }
+    public static boolean graphColoring(List<Integer>[] g, int[] color, int i, int m) 
+    {
+        // Your code here
+        
+        //i==start point
+        
+        //number of nodes
+        int n= g.length;
+        
+        if(dfs(0,g,color,m,n)==true)
+        {
+            return true;
+        }
+        
+        return false;
+    }
+}
