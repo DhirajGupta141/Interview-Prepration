@@ -1,0 +1,132 @@
+The n-queens puzzle is the problem of placing n queens on an n x n chessboard such that no two queens attack each other.
+
+Given an integer n, return all distinct solutions to the n-queens puzzle.
+
+Each solution contains a distinct board configuration of the n-queens' placement, where 'Q' and '.' both indicate a queen and an empty space, respectively.
+
+ 
+
+Example 1:
+
+
+Input: n = 4
+Output: [[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]
+Explanation: There exist two distinct solutions to the 4-queens puzzle as shown above
+Example 2:
+
+Input: n = 1
+Output: [["Q"]]
+_______________________________________________________________________SOLUTION_________________________________________________________________
+class Solution 
+{
+    public List<List<String>> solveNQueens(int n)
+    {
+        List<List<String>> ans=new ArrayList<>();
+        
+        char board[][]=new char[n][n];
+        
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                board[i][j]='.';
+            }
+        }
+        
+        dfs(0,board,ans,n); //Bhagwan
+        
+        return ans;
+    }
+    
+    
+    void dfs(int curr_col,char board[][],List<List<String>> ans,int n)
+    {
+        if(curr_col==n)
+        {
+            ans.add(make_ans(board));  //current board which is giving ans
+            return;
+        }
+        
+        for(int row=0;row<n;row++)  //exploring all the rows of current column
+        {
+            if(isValidQueen(row,curr_col,board,n)) //can we place queen at the current row and col
+            {
+                board[row][curr_col]='Q';
+                dfs(curr_col+1,board,ans,n);//if we have put the queen at the current col we need to move next col
+                board[row][curr_col]='.';  //backtrack
+            }
+        }
+    }
+    
+    
+    
+    
+    List<String> make_ans(char board[][])
+    {
+        List<String> subans=new LinkedList<>();
+        
+        for(int row=0;row<board.length;row++)
+        {
+            String str_ans=new String(board[row]); //making each row as String
+            subans.add(str_ans);
+        }
+        
+        return subans;
+    }
+    
+    
+    boolean isValidQueen(int row ,int col,char board[][],int n)
+    {
+        int dupRow=row;
+        int dupCol=col;
+        
+        //checking toward left top diagonal
+        
+        while(row>=0 && col>=0)
+        {
+            if(board[row][col]=='Q')
+            {
+                return false;
+            }
+            else
+            {
+                row--;
+                col--;
+            }  
+        }
+        
+        //checkking same row
+        row=dupRow;
+        col=dupCol;
+        while(col>=0)
+        {
+            if(board[row][col]=='Q')
+            {
+                return false;
+            }
+            else
+            {
+                col--;
+            }
+        }
+        
+        //checking toward left bottom diagonal
+        row=dupRow;
+        col=dupCol;
+        while(row<n && col>=0)
+        {
+            if(board[row][col]=='Q')
+            {
+                return false;
+            }
+            else
+            {
+                col--;
+                row++;
+            }
+        }
+        
+        return true;
+    }
+    
+}
