@@ -1,0 +1,90 @@
+Given a string array words, return the maximum value of length(word[i]) * length(word[j]) where the two words do not share common letters. If no such two words exist, return 0.
+
+ 
+
+Example 1:
+
+Input: words = ["abcw","baz","foo","bar","xtfn","abcdef"]
+Output: 16
+Explanation: The two words can be "abcw", "xtfn".
+Example 2:
+
+Input: words = ["a","ab","abc","d","cd","bcd","abcd"]
+Output: 4
+Explanation: The two words can be "ab", "cd".
+Example 3:
+
+Input: words = ["a","aa","aaa","aaaa"]
+Output: 0
+Explanation: No such pair of words.
+_____________________________________________________SOLUTION_______________________________________________
+class Solution {
+    public int maxProduct(String[] words)
+    {
+        //brute force TC=O(n^2*(maxLen(s1)*maxLen(s2))
+        int ans=0;
+        for(int i=0;i<words.length;i++)
+        {
+            for(int j=i+1;j<words.length;j++)
+            {
+                int flag=0;
+                for(char c:words[i].toCharArray())
+                {
+                    if(words[j].contains(String.valueOf(c)))
+                    {
+                        flag=1;
+                        break;
+                    }
+                }
+                
+                if(flag==0)
+                {
+                    ans=Math.max(ans,words[i].length()*words[j].length());
+                }
+            }
+        }
+        
+        return ans;
+        
+    }
+}
+
+
+OPTIMAL SOLUTION
+class Solution {
+
+    // TC : O(n2)
+    // SC : O(n)
+    public  int maxProduct(String[] words) {
+
+        int len = words.length;
+        int[] state = new int[len];
+
+
+        for (int i=0;i<len;i++) {
+
+            state[i] = getStateFromString(words[i]);
+
+        }
+
+        int maxProduct = 0;
+        for (int i = 0; i < len; i++)
+            for (int j = i + 1; j < len; j++) {
+                if ((state[i] & state[j]) == 0) {
+                    if(words[i].length() * words[j].length() > maxProduct) {
+                        maxProduct = words[i].length() * words[j].length();
+                    }
+                }
+            }
+        return maxProduct;
+    }
+
+    private int getStateFromString(String s){
+        int state = 0;
+        for(char c: s.toCharArray()){
+            int index = c  -'a';
+            state |= 1 << (index);
+        }
+        return state;
+    }
+}
