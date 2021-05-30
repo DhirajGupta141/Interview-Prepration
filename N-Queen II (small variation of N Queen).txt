@@ -1,0 +1,121 @@
+The n-queens puzzle is the problem of placing n queens on an n x n chessboard such that no two queens attack each other.
+
+Given an integer n, return the number of distinct solutions to the n-queens puzzle.
+
+ 
+
+Example 1:
+
+
+Input: n = 4
+Output: 2
+Explanation: There are two distinct solutions to the 4-queens puzzle as shown.
+Example 2:
+
+Input: n = 1
+Output: 1
+ 
+
+Constraints:
+
+1 <= n <= 9
+___________________________________________________SOLUTION_____________________________________
+class Solution
+{
+    int ans=0;   //making ans as global
+    public int totalNQueens(int n) 
+    {
+        //List<List<String>> ans=new ArrayList<>();
+        //int ans=0;
+        char board[][]=new char[n][n];
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                board[i][j]='.';
+            }
+        }
+        
+        dfs(0,board,n); //Bhagwan  --> making calls for colmns and checking by rows in dfs function
+        
+        return ans;
+    }
+    
+    
+    void dfs(int curr_col,char board[][],int n)
+    {
+        if(curr_col==n)  //successfully able to place all the queens
+        {
+            ans++;
+            //ans.add(make_ans(board));  //current board which is giving ans
+            return;
+        }
+        
+        for(int row=0;row<n;row++)  //exploring all the rows of current column
+        {
+            if(isValidQueen(row,curr_col,board,n)) //can we place queen at the current row and col
+            {
+                board[row][curr_col]='Q';
+                dfs(curr_col+1,board,n);//if we have put the queen at the current col we need to move next col
+                board[row][curr_col]='.';  //backtrack
+            }
+        }
+    }
+    
+    boolean isValidQueen(int row ,int col,char board[][],int n)
+    {
+        int dupRow=row;
+        int dupCol=col;
+        
+        //checking toward left top diagonal
+        
+        while(row>=0 && col>=0)
+        {
+            if(board[row][col]=='Q')
+            {
+                return false;
+            }
+            else
+            {
+                row--;
+                col--;
+            }  
+        }
+        
+        //checkking same row
+        row=dupRow;
+        col=dupCol;
+        while(col>=0)
+        {
+            if(board[row][col]=='Q')
+            {
+                return false;
+            }
+            else
+            {
+                col--;
+            }
+        }
+        
+        //checking toward left bottom diagonal
+        row=dupRow;
+        col=dupCol;
+        while(row<n && col>=0)
+        {
+            if(board[row][col]=='Q')
+            {
+                return false;
+            }
+            else
+            {
+                col--;
+                row++;
+            }
+        }
+        
+        return true;
+
+    }
+    
+    
+}
