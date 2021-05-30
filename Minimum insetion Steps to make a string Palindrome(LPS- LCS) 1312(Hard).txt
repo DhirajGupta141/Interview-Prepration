@@ -1,0 +1,76 @@
+Given a string s. In one step you can insert any character at any index of the string.
+
+Return the minimum number of steps to make s palindrome.
+
+A Palindrome String is one that reads the same backward as well as forward.
+
+ 
+
+Example 1:
+
+Input: s = "zzazz"
+Output: 0
+Explanation: The string "zzazz" is already palindrome we don't need any insertions.
+Example 2:
+
+Input: s = "mbadm"
+Output: 2
+Explanation: String can be "mbdadbm" or "mdbabdm".
+Example 3:
+
+Input: s = "leetcode"
+Output: 5
+Explanation: Inserting 5 characters the string becomes "leetcodocteel".
+Example 4:
+
+Input: s = "g"
+Output: 0
+Example 5:
+
+Input: s = "no"
+Output: 1
+_________________________________________________________SOLUTION________________________________________________________________________
+class Solution 
+{
+    
+    int LPS(String X,String Y)
+    {
+        int n=X.length();
+        int m=Y.length();
+        
+        int t[][]=new int[n+1][m+1];
+        
+        for(int i=1;i<=n;i++)
+        {
+            for(int j=1;j<=m;j++)
+            {
+                if(X.charAt(i-1)==Y.charAt(j-1))
+                {
+                    t[i][j]=1+t[i-1][j-1];
+                }
+                else 
+                {
+                    t[i][j]=Math.max(t[i][j-1],t[i-1][j]);
+                }
+            }
+        }
+        
+        return t[n][m];
+    }
+    
+    
+    public int minInsertions(String s) 
+    {
+        if(s.length()==1 || s.length()==0 ||s==null)
+        {
+            return 0;
+        }
+        StringBuilder sb=new StringBuilder(s);
+        
+        int x=LPS(s,sb.reverse().toString());
+        
+        return s.length()-x;
+        
+        
+    }
+}
