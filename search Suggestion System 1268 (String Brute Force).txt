@@ -52,7 +52,7 @@ class Solution
                     count++;
                     subans.add(products[j]);
                     
-                    if(count==3)
+                    if(count==3)  //after adding third element
                     {
                         break;
                     }
