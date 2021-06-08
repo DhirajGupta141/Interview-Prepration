@@ -1,0 +1,58 @@
+Given a string of characters, find the length of the longest proper prefix which is also a proper suffix.
+
+Example 1:
+
+Input: s = "abab"
+Output: 2
+Explanation: "ab" is the longest proper 
+prefix and suffix. 
+Example 2:
+
+Input: s = "aaaa"
+Output: 3
+Explanation: "aaa" is the longest proper 
+prefix and suffix. 
+___________________________________________________SOLUTON________________________
+class Solution
+{
+    int lps(String s)
+    {
+        if(s.length()==0 || s==null)
+        {
+            return 0;
+        }
+        int lps[]=new int[s.length()];  //length of prefix suffix array at each char
+        lps[0]=0;  //for the length 1 string no common sufix prefix
+        int i=1;  //suffix pointer
+        int j=0;  //prefix pointer9
+        
+        while(i<s.length())
+        {
+            if(s.charAt(i)==s.charAt(j))
+            {
+                // we are storing the length of suffix which is also prefix with the help of pointers
+                lps[i]=j+1; // +1 because the indexing is of zero based
+                i++;
+                j++;
+            }
+            else
+            {
+                if(j!=0)
+                {
+                     j=lps[j-1]; //j is going to the last index where suffix was prefix
+                    //no need to increase i  will check aggain for the ith char with new jth char
+                }
+                else 
+                {
+                    lps[i]=0;//means zero length string is common(suffix as well as prefix at i)
+                    i++;
+                }
+            }
+        }
+        
+        //lps[s.lengt()-1] that is last index will have longest prefix which is also suffix length
+        
+        return lps[s.length()-1]==0?0:lps[s.length()-1];
+        
+    }
+}
