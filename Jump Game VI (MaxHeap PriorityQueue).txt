@@ -1,0 +1,58 @@
+You are given a 0-indexed integer array nums and an integer k.
+
+You are initially standing at index 0. In one move, you can jump at most k steps forward without going outside the boundaries of the array. That is, you can jump from index i to any index in the range [i + 1, min(n - 1, i + k)] inclusive.
+
+You want to reach the last index of the array (index n - 1). Your score is the sum of all nums[j] for each index j you visited in the array.
+
+Return the maximum score you can get.
+
+ 
+
+Example 1:
+
+Input: nums = [1,-1,-2,4,-7,3], k = 2
+Output: 7
+Explanation: You can choose your jumps forming the subsequence [1,-1,4,3] (underlined above). The sum is 7.
+Example 2:
+
+Input: nums = [10,-5,-2,4,0,3], k = 3
+Output: 17
+Explanation: You can choose your jumps forming the subsequence [10,4,3] (underlined above). The sum is 17.
+Example 3:
+
+Input: nums = [1,-5,-20,4,-1,3,-6,-3], k = 2
+Output: 0
+_____________________________________________________________SOLUTION___________________________________
+class Solution {
+    public int maxResult(int[] a, int k) 
+    {
+        
+        if(a.length==0)
+        {
+            return 0;
+        }
+        
+        //score and index (maximum score at that index)  //priorityQueue of Arrays
+     PriorityQueue<int []> maxH=new PriorityQueue<>((arr1,arr2)->arr2[0]-arr1[0]);// a and b are two arrays b[0] means score
+        
+        int ans=Integer.MAX_VALUE;
+        maxH.add(new int[]{a[0],0});
+        for(int i=1;i<a.length;i++)
+        {
+            while(i-maxH.peek()[1]>k)
+            {
+                maxH.poll();
+            }
+            
+            int curr[]=maxH.peek();
+            
+            ans=curr[0]+a[i];  //curr[0]<-- score 
+            
+            maxH.add(new int[]{ans,i});
+            
+        }
+        
+        return ans==Integer.MAX_VALUE?a[0]:ans;
+        
+    }
+}
