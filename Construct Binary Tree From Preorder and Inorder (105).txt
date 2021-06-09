@@ -1,0 +1,68 @@
+Given two integer arrays preorder and inorder where preorder is the preorder traversal of a 
+binary tree and inorder is the inorder traversal of the same tree, construct and return the binary tree.
+
+ 
+
+Example 1:
+
+
+Input: preorder = [3,9,20,15,7], inorder = [9,3,15,20,7]
+Output: [3,9,20,null,null,15,7]
+Example 2:
+
+Input: preorder = [-1], inorder = [-1]
+Output: [-1]
+ __________________________________________________________________________SOLUTION________________________________
+class Solution
+{
+    TreeNode root=null;
+    int indexInPre=0;
+    public TreeNode buildTree(int[] pre, int[] in) 
+    {
+        if(pre.length==0 || in.length==0 || in==null || pre==null)
+        {
+            return null;
+        }
+        
+        root=buildTreeHelper(pre,in,0,in.length-1);//because inorder is reduces every time by deciding who should be on left and who should be on right
+        return root;
+    }
+    
+    
+    TreeNode buildTreeHelper(int[] pre, int[] in,int inStart,int inEnd)
+    {
+        if(indexInPre>=pre.length)
+        {
+            return null;
+        }
+        
+        TreeNode newNode=new TreeNode(pre[indexInPre]);
+        int indexInInorder=searchIndex(in,pre,inStart,inEnd);
+        if(indexInInorder==-1)
+        {
+            return null;
+        }
+        indexInPre++;
+        
+        newNode.left=buildTreeHelper(pre,in,inStart,indexInInorder-1);
+        newNode.right=buildTreeHelper(pre,in,indexInInorder+1,inEnd);
+        
+        return newNode;
+        
+    }
+    
+    
+    int searchIndex(int in[],int pre[],int start,int end)
+    {
+        for(int i=start;i<=end;i++)
+        {
+            if(in[i]==pre[indexInPre])
+            {
+                return i;
+            }
+        }
+        
+        return -1;
+    }
+    
+}
