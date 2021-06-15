@@ -1,0 +1,78 @@
+Given a string S with repeated characters. The task is to rearrange characters in a string such that no two adjacent characters are the same. 
+
+Note: The string has only lowercase English alphabets and it can have multiple solutions. Return any one of them.
+
+Example 1:
+
+Input : 
+str = "geeksforgeeks"
+Output: 1
+Explanation:
+All the repeated characters of the 
+given string can be rearranged so 
+that no adjacent characters in the 
+string is equal. Any correct 
+rearrangement will show a output of 1.
+Example 2:
+
+Input : 
+str = "bbbbb"
+Output: 0
+Explanation : 
+Repeated characters in the string cannot 
+be rearranged such that there should not 
+be any adjacent repeated character.
+_______________________________________________________SOLUTION________________________________________________
+class Solution
+{
+	public static String rearrangeCharacters(String s) 
+	{
+	   HashMap<Character,Integer> m=new HashMap<Character,Integer>();
+        
+        for(char c:s.toCharArray())
+        {
+            m.put(c,m.getOrDefault(c,0)+1);
+        }
+        PriorityQueue<Character> maxH=new PriorityQueue<Character>((a,b)->m.get(b)-m.get(a));
+        
+        maxH.addAll(m.keySet());
+        
+        StringBuilder sb=new StringBuilder();
+        
+        while(maxH.size()>1)
+        {
+            char current=maxH.remove();
+            char next=maxH.remove();
+            
+            sb.append(current);
+            sb.append(next);
+            
+            m.put(current,m.get(current)-1);
+            m.put(next,m.get(next)-1);
+            if(m.get(current)>0)
+            {
+                maxH.add(current);
+            }
+            
+            if(m.get(next)>0)
+            {
+                maxH.add(next);
+            }
+        }
+        
+        
+        if(!maxH.isEmpty())
+        {
+            char last=maxH.remove();
+            
+            if(m.get(last)>1)
+            {
+                return "-1";
+            }
+            
+            sb.append(last);
+        }
+        
+        return sb.toString();
+	}
+}
