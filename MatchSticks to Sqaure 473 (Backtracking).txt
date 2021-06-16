@@ -1,0 +1,61 @@
+You are given an integer array matchsticks where matchsticks[i] is the length of the ith matchstick. You want to use all the matchsticks to make one square. You should not break any stick, but you can link them up, and each matchstick must be used exactly one time.
+
+Return true if you can make this square and false otherwise.
+
+ 
+
+Example 1:
+
+
+Input: matchsticks = [1,1,2,2,2]
+Output: true
+Explanation: You can form a square with length 2, one side of the square came two sticks with length 1.
+Example 2:
+
+Input: matchsticks = [3,3,3,3,4]
+Output: false
+Explanation: You cannot find a way to form a square with all the matchsticks.
+ _______________________________________________________________SOLUTION________________________________________________
+class Solution
+{
+    public boolean makesquare(int[] sticks) 
+    {
+        if(sticks.length<4) return false;
+        
+        int perimeter=0;
+        for(int  stick_len: sticks) perimeter+=stick_len;
+        
+        if(perimeter%4!=0) return false;
+        
+        //if given sticks will make the square then each side should be perimeter/4
+        int side=perimeter/4;
+        int sides[]=new int[]{side,side,side,side};
+        
+        return dfs(0,sticks,sides);
+    }
+    
+    boolean dfs(int curr_stick,int []sticks,int []sides)
+    {
+        //all side value should be zero
+        if(curr_stick==sticks.length)
+        {
+            return sides[0]==0 && sides[1]==0 && sides[2]==0 && sides[3]==0;
+        }
+        
+        //trying all the side with all the posibility with sticks
+        for(int i=0;i<4;i++)
+        {
+            if(sticks[curr_stick]>sides[i])
+                continue;
+            else
+                sides[i]=sides[i]-sticks[curr_stick]; //subtracting the current stick
+            
+            if(dfs(curr_stick+1,sticks,sides)==true)//going depth of the current sticks by trying all posibility
+                return true;
+            
+            sides[i]+=sticks[curr_stick];  //backtrack 
+        }
+        
+        return false;
+    }
+}
