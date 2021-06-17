@@ -43,7 +43,7 @@ class Solution
         DiaPair ldp=MyDiameter(root.left);  //diameter and height from left side of tree
         DiaPair rdp=MyDiameter(root.right); // diameter and height from right side of tree
         
-        DiaPair mp=new DiaPair //my diameter and height that is calling node in post order
+        DiaPair mp=new DiaPair(); //my diameter and height that is calling node in post order
         
         mp.ht=Math.max(ldp.ht,rdp.ht)+1;  //max (hight of left and right) + current node
         
