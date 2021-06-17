@@ -59,7 +59,8 @@ class Solution
     
     //main function that is driver
     int diameter(Node root) 
-    {
+    {  
+    
         DiaPair result=MyDiameter(root);
         
         return result.dia;
