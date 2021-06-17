@@ -1,0 +1,68 @@
+Given a Binary Tree, find diameter of it.
+The diameter of a tree is the number of nodes on the longest path between two end nodes in the tree. The diagram below shows two trees each with diameter nine, the leaves that form the ends of a longest path are shaded (note that there is more than one path in each tree of length nine, but no path longer than nine nodes).
+
+
+
+Example 1:
+
+Input:
+       1
+     /  \
+    2    3
+Output: 3
+Example 2:
+
+Input:
+         10
+        /   \
+      20    30
+    /   \ 
+   40   60
+Output: 4
+_________________________________________________________SOLUTION___________________________________
+class DiaPair
+{
+    int ht;
+    int dia;
+}
+
+class Solution
+{
+    // Function to return the diameter of a Binary Tree.
+    
+    DiaPair MyDiameter(Node root)
+    {
+       if(root==null)
+        {
+            DiaPair dp=new DiaPair();  //new object because we have to return ans abject
+            dp.ht=0;
+            dp.dia=0;
+            return dp;
+        }
+        
+        DiaPair ldp=MyDiameter(root.left);  //diameter and height from left side of tree
+        DiaPair rdp=MyDiameter(root.right); // diameter and height from right side of tree
+        
+        DiaPair mp=new DiaPair //my diameter and height that is calling node in post order
+        
+        mp.ht=Math.max(ldp.ht,rdp.ht)+1;  //max (hight of left and right) + current node
+        
+        int through_root=ldp.ht+rdp.ht+1;  //diameter thought this node
+         //+1 because diameter would be height from left + right and my node as well
+        
+        
+        mp.dia=Math.max(through_root,Math.max(ldp.dia,rdp.dia)); //diameter for current node
+        
+        return mp; //current node object
+        
+    }
+    
+    //main function that is driver
+    int diameter(Node root) 
+    {
+        DiaPair result=MyDiameter(root);
+        
+        return result.dia;
+    }
+}
+
