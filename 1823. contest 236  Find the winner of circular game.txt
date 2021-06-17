@@ -1,4 +1,5 @@
-There are n friends that are playing a game. The friends are sitting in a circle and are numbered from 1 to n in clockwise order. More formally, moving clockwise from the ith friend brings you to the (i+1)th friend for 1 <= i < n, and moving clockwise from the nth friend brings you to the 1st friend.
+ ----------------------------------------------------------------Same as Josephus Problem----------------------------------------------------------------------------------------
+There are n friends that are playing a game. The friends are sitting in a circle and are numbered from 1 to n in clockwise order. More formally, moving clockwise from the ith friend brings you to the (i+1)th friend for 1 <= i < n, and moving clockwise from the nth friend brings you to the 1st friend.(Basically a circle)
 
 The rules of the game are as follows:
 
@@ -42,7 +43,7 @@ ________________________________________________________________________________
   ______________
    1  2   0   0   <--  x=0 form base case  y=(0+2)%1 --> 0
  ______________
-
+x(this row)=y(previous row)<------------ Meaning is that the function call returns the value at the place from where it is called
 
 So 2 will be returned form last call ie from helper 
 
@@ -58,19 +59,20 @@ class Solution
 {
     int helper(int n,int k)
     {
-        if(n==1)  // only one person is remaining so he is itself a winner and he stands at index 0 so returned 0
+       //base case
+        if(n==1) // only one person is remaining so he is itself a winner and he stands at index 0 so returned 0
         {
             return 0;
         }
-        int x=helper(n-1,k);  // asking the answer form my child 
-        int y=(x+k)%n;        
+        int x=helper(n-1,k);  // asking the answer from my child 
+        int y=(x+k)%n;  // normal maths %n means the value will range between 0 to n-1 so.. :)    (what ever is the value of the previous steps i have to move k steps ahead)     
         return y;
     }
     public int findTheWinner(int n, int k) 
     {
         if(k>n)
         {
-            k=k%n;
+            k=k%n; // answer will be between 0 to n-1 means with in the range and by doing so we are removing the repeatation 
         }
         
         return helper(n,k)+1;   //why +1 because we are getting index of the last person from the helper() function and index are 0 based so
