@@ -1,0 +1,65 @@
+We are given an array nums of positive integers, and two positive integers left and right (left <= right).
+
+Return the number of (contiguous, non-empty) subarrays such that the value of the maximum array element in that subarray is at least left and at most right.
+
+Example:
+Input: 
+nums = [2, 1, 4, 3]
+left = 2
+right = 3
+Output: 3
+Explanation: There are three subarrays that meet the requirements: [2], [2, 1], [3].
+__________________________________________SOLUTION_______________________________________________
+class Solution
+{
+    public int numSubarrayBoundedMax(int[] a, int left, int right)
+    {
+        //Brute force works but gives TLE on 41/43 test case
+        int ans=0;
+        for(int i=0;i<a.length;i++)
+        {
+            int max=Integer.MIN_VALUE;
+            for(int j=i;j<a.length;j++)
+            {
+                max=Math.max(max,a[j]);
+                
+                if(max>=left && max<=right)
+                {
+                    ans++;
+                }
+                
+            }
+        }
+        
+        return ans;
+        
+        
+        //using Sliding Window
+        
+        int ans=0;
+        int i=0,j=0;  i--> start and j--end of window
+        int window=0;
+        while(j<a.length)
+        {
+            // in range
+            if(a[j]>=left && a[j]<=right)
+               window=j-i+1;
+        
+            
+            //outside the range ie ouside the right bound
+            if(a[j]>right)//blocking point
+            {
+                i=j+1;
+                window=0;
+            }
+            //smaller tha  left boundary
+            if(a[j]<left)// this smaller will contribute with the largest element in the window before this
+                window=window;
+            
+            ans+=window;
+            j++;
+            
+        }
+        return ans;
+    }
+}
