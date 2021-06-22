@@ -1,0 +1,61 @@
+Given a Directed Graph with V vertices (Numbered from 0 to V-1) and E edges, check whether it contains any cycle or not.
+
+
+Example 1:
+
+Input:
+
+
+
+Output: 1
+Explanation: 3 -> 3 is a cycle
+
+Example 2:
+
+Input:
+
+
+Output: 0
+Explanation: no cycle in the graph
+_________________________________________________________________________SOLUTION__________________________________________________
+class Solution 
+{
+    boolean checkCycleForCurrent(int curr,ArrayList<ArrayList<Integer>> adj,int visited[],
+    int dfsVisited[])
+    {
+        visited[curr]=1;
+        dfsVisited[curr]=1;
+        //going depth of the current node by moving in its adjeceny list
+        for(int ad:adj.get(curr))
+        {
+            if(visited[ad]==0) 
+            {
+                if(checkCycleForCurrent(ad,adj,visited,dfsVisited)) //if in depth someone have cycle
+                    return true;
+            }
+            else if(dfsVisited[ad]==1) //both are marked as 1 at the same time
+                return true;
+        }
+        
+        dfsVisited[curr]=0; //while going back mark as unvisited in the dfsVisited array
+        
+        return false;
+    }
+    public boolean isCyclic(int V, ArrayList<ArrayList<Integer>> adj)
+    {
+        int visited[]=new int[V];
+        int dfsVisited[]=new int[V];
+        
+        for(int i=0;i<V;i++)
+        {
+            if(visited[i]==0)
+            {
+                if(checkCycleForCurrent(i,adj,visited,dfsVisited))//going depth hopping if any other node will encounter a cycle
+                    return true;
+            }
+        }
+        
+        return false;
+    }
+}
+
