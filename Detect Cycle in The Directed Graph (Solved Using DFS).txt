@@ -50,7 +50,8 @@ class Solution
         {
             if(visited[i]==0)
             {
-                if(checkCycleForCurrent(i,adj,visited,dfsVisited))//going depth hopping if any other node will encounter a cycle
+                if(checkCycleForCurrent(i,adj,visited,dfsVisited))//why if block --> because we are hopping if any of the component returns true
+
                     return true;
             }
         }
