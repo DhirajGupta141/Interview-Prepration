@@ -49,10 +49,10 @@ class Solution
         
         char temp=b[i][j];
         b[i][j]=' ';
-        
+        //searching in all four directions of current character
         boolean found=DFS(b,i+1,j,idx+1,word) || DFS(b,i-1,j,idx+1,word) || 
                       DFS(b,i,j+1,idx+1,word) || DFS(b,i,j-1,idx+1,word);
-        b[i][j]=temp;
+        b[i][j]=temp;  //backtrack
         
         return found;
         
