@@ -1,0 +1,84 @@
+Given a string s and an array of strings words, return the number of words[i] that is a subsequence of s.
+
+A subsequence of a string is a new string generated from the original string with some characters (can be none) deleted without changing the relative order of the remaining characters.
+
+For example, "ace" is a subsequence of "abcde".
+ 
+
+Example 1:
+
+Input: s = "abcde", words = ["a","bb","acd","ace"]
+Output: 3
+Explanation: There are three strings in words that are a subsequence of s: "a", "acd", "ace".
+Example 2:
+
+Input: s = "dsahjpjauf", words = ["ahjpjau","ja","ahbwzgqnuk","tnmlanowax"]
+Output: 2
+_______________________________________________________________________SOLUTION_________________________________________
+Brute force passes 44/52 test cases
+class Solution 
+{
+    public int numMatchingSubseq(String s, String[] words)
+    {
+        int ans=0;
+        
+        for(String word:words)
+        {
+            int i=0; //original
+            int j=0; //subsequence string
+            
+            while(i<s.length() && j<word.length())
+            {
+                if(s.charAt(i)==word.charAt(j))
+                {
+                    j++;
+                    i++;
+                }
+                else
+                    i++;
+                
+                if(j==word.length())
+                    break;
+            }
+            
+            if(j==word.length())
+                ans++;
+        }
+        
+        return ans;
+    }
+}
+
+class Solution {
+    public int numMatchingSubseq(String S, String[] words) {
+        Map<Character, Queue<String>> map = new HashMap<>();
+        int ans = 0;
+
+        for(int i = 0; i < S.length(); i++) {
+            map.putIfAbsent(S.charAt(i), new LinkedList<>());
+        }
+
+        for(String word : words) {
+            char startChar = word.charAt(0);
+            if(map.containsKey(startChar)) {
+                map.get(startChar).offer(word);
+            }
+        }
+        for(int i = 0; i < S.length(); i++) {
+            char startChar = S.charAt(i);
+            Queue<String> q = map.get(startChar);
+            int size = q.size();
+            for(int k = 0; k < size; k++) {
+                String str = q.poll();
+                if(str.substring(1).length() == 0) {
+                    ans++;
+                } else {
+                    if(map.containsKey(str.charAt(1))) {
+                        map.get(str.charAt(1)).add(str.substring(1));
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+}
