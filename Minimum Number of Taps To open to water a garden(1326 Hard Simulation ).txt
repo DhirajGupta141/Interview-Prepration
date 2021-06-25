@@ -54,7 +54,7 @@ class Solution
                     maxBound=i+ranges[i];
             }
             
-            if(maxBound==minBound) return -1;
+            if(maxBound==minBound) return -1;  // no changes in the min and max means there is some i position in array which cant be watered
             open++;
             minBound=maxBound;//now after opening on of the tap its max value would be new min range
         }
