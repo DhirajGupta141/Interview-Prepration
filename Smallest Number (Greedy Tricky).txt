@@ -1,0 +1,68 @@
+The task is to find the smallest number with given sum of digits as S and number of digits as D.
+
+ 
+
+Example 1:
+
+Input:
+S = 9 
+D = 2
+Output:
+18
+Explanation:
+18 is the smallest number
+possible with sum = 9
+and total digits = 2.
+ 
+
+Example 2:
+
+Input:
+S = 20
+D = 3
+Output:
+299
+Explanation:
+299 is the smallest number
+possible with sum = 20
+and total digits = 3.
+ 
+
+__________________________________________________________SOLUTION______________________________
+class Solution
+{
+    static String smallestNumber(int toBeMade, int digits)
+    {
+        if(toBeMade>digits*9)
+            return "-1";
+        String ans="";
+        
+        for(int i=digits;i>=1;i--)
+        {
+            if(toBeMade>9)
+            {
+                ans='9'+ans;
+                toBeMade-=9;
+            }
+            else  //less than 9 means single digit
+            {
+                if(i==1) //last remaining digit
+                    ans=String.valueOf(toBeMade)+ans;
+                else
+                {
+                    ans=String.valueOf(toBeMade-1)+ans;// 1 less than the last digit to be made
+                    i--;
+                    while(i>1)//  till 2nd last digit
+                    {
+                        ans='0'+ans;
+                        i--;
+                    }
+                    ans='1'+ans;  //last digit is made 1 because we dont want trailling zero
+                    break;
+                }
+            }
+        }
+        
+        return ans;
+    }
+}
