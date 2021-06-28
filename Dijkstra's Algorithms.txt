@@ -2,8 +2,8 @@ import java.util.*;
 
 class Node implements Comparator<Node>
 {
-    private int v;
-    private int weight;
+    private int v;   //virtex
+    private int weight;  //weight is nothing but distance
     
     Node(int _v, int _w) { v = _v; weight = _w; }
     
@@ -15,9 +15,9 @@ class Node implements Comparator<Node>
     @Override
     public int compare(Node node1, Node node2) 
     { 
-        if (node1.weight < node2.weight) 
+        if (node1.weight < node2.weight)   //node1.weight is smaller no need to change return -1
             return -1; 
-        if (node1.weight > node2.weight) 
+        if (node1.weight > node2.weight) //node1.weight is greater  need to change return 1
             return 1; 
         return 0; 
     } 
@@ -33,13 +33,17 @@ class Main
         dist[s] = 0; 
         
         PriorityQueue<Node> pq = new PriorityQueue<Node>(N, new Node());
-        pq.add(new Node(s, 0));
+	//Could be done like this
+	PriorityQueue<Node> minH=new PriorityQueue<>((n1,n2)->n1.getWeight()-n2.getWeight());<-- if we do like this we dont have to use the comparator function for comparision
+        
+	pq.add(new Node(s, 0));   // Source to source distance is zero thats why we have initialized it with 0 
         
         while(pq.size() > 0) {
             Node node = pq.poll();
             
             for(Node it: adj.get(node.getV())) {
-                if(dist[node.getV()] + it.getWeight() < dist[it.getV()]) {
+                if(dist[node.getV()] + it.getWeight() < dist[it.getV()])   //if we are getting smaller value with the current adjecent node 
+		{
                     dist[it.getV()] = dist[node.getV()] + it.getWeight(); 
                     pq.add(new Node(it.getV(), dist[it.getV()]));
                 }
