@@ -26,43 +26,43 @@ Output:
 Explanation:
 No path exists and destination cell is 
 blocked.
-_____________________________________________________SOLUTION
+_________________________________________________________________________________SOLUTION________________________________________________________________________________________
 
 
 
-class Solution {
-    public static ArrayList<String> findPath(int[][] m, int n) {
-        // Your code here
-        ArrayList<String> list=new ArrayList<>();
-        String bf = "";
+class Solution 
+{
+    public static ArrayList<String> findPath(int[][] m, int n) 
+    {
+        ArrayList<String> ans=new ArrayList<>();
+        String path = "";
         
-        backtrack(m,n,list,0,0,bf);
-        return list;
+        backtrack(m,n,list,0,0,path);  //0,0 is the starting point
+        return ans;
     }
     
-    public static void backtrack(int[][] m,int n,ArrayList<String> list,int i,int j,String bf)
+    public static void backtrack(int[][] m,int n,ArrayList<String> ans,int i,int j,String path)
     {
         if(i<0 || i>=n || j<0 || j>=n || m[i][j]==0)
-        {
-            //bf.remove()
+        {  
             //We have taken wrong step, go back;
             return;
         }
+        //reached to the finishing point
         if(i==n-1 && j==n-1)
         {
-            list.add(bf+"");
-            //bf.deleteCharAt(bf.length()-1);
+            ans.add(path+"");  
             return;
         }
         
         //Now we have four options;
         m[i][j]=0; //making it visited;
         
-        backtrack(m,n,list,i+1,j,bf+"D");
-        backtrack(m,n,list,i,j-1,bf+"L");
-        backtrack(m,n,list,i,j+1,bf+"R");
-        backtrack(m,n,list,i-1,j,bf+"U");
+        backtrack(m,n,ans,i+1,j,path+"D");   //after completing this recursion the below one will execute ie after hitting the base case
+        backtrack(m,n,ans,i,j-1,path+"L");
+        backtrack(m,n,ans,i,j+1,path+"R");
+        backtrack(m,n,ans,i-1,j,path+"U");
         
-        m[i][j]=1;
+        m[i][j]=1;  //backtrack
     }
 }
