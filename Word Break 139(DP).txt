@@ -1,0 +1,79 @@
+Given a string s and a dictionary of strings wordDict, return true if s can be segmented into a space-separated sequence of one or more dictionary words.
+
+Note that the same word in the dictionary may be reused multiple times in the segmentation.
+
+ 
+
+Example 1:
+
+Input: s = "leetcode", wordDict = ["leet","code"]
+Output: true
+Explanation: Return true because "leetcode" can be segmented as "leet code".
+Example 2:
+
+Input: s = "applepenapple", wordDict = ["apple","pen"]
+Output: true
+Explanation: Return true because "applepenapple" can be segmented as "apple pen apple".
+Note that you are allowed to reuse a dictionary word.
+Example 3:
+
+Input: s = "catsandog", wordDict = ["cats","dog","sand","and","cat"]
+Output: false
+___________________________________________________________SOUTION________________________________________________
+class Solution
+{
+
+    HashSet<String> dict = new HashSet();
+    Integer[][] dp;
+
+    public int solve(String s, int i, int j)
+    {
+        //We have Exhausted our search space.
+        if(i>j)
+            return 0;
+
+        //We have already solved this subproblem.
+        if(dp[i][j]!=null)
+            return dp[i][j];
+
+        //If the string from i to j exists in the dictionary, we dont need to break our string f           further.
+        if(dict.contains(s.substring(i, j+1)))
+            return 1;
+
+        int ans = 0;
+
+        //Trying different space positions between i to j.
+        for(int k = i;k<=j;k++)
+        {
+
+            /*As all substrings should be in the dictionary we will only insert the 
+            space at current k if the string from i to k is in the dictionary.*/
+
+            if(dict.contains(s.substring(i, k+1)))
+            {
+                //Recursively checking for the string right to the inserted space at k. 
+                ans = solve(s, k+1, j);
+                if(ans==1)
+                    break;   //we got the required string no need to break more           
+            }
+        }
+        
+        dp[i][j]=ans; //storing first
+        
+        return ans;
+    }
+    
+    public boolean wordBreak(String s, List<String> wordDict) 
+    {
+        //Storing all the words in a HashSet. For O(1) Search operation.
+        for(String st: wordDict){
+            dict.add(st);
+        }
+        int n = s.length();
+
+        //Matrix to memoize results of subproblems. 
+        dp = new Integer[n+1][n+1];
+
+        return solve(s, 0, n-1)==1;
+    }
+}
