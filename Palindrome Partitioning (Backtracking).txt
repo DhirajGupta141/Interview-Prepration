@@ -12,28 +12,49 @@ Example 2:
 
 Input: s = "a"
 Output: [["a"]]
+
+Input:
+S = "geeks"
+Output:
+g e e k s
+g ee k s
+Explanation:
+All possible palindromic partitions
+are printed.
+Example 2:
+
+Input:
+S = "madam"
+Output:
+m a d a m
+m ada m
+madam
+
 ______________________________________________________SOLUTION_______________________________________________
+
+TC: O(N*2^N)
+SC: O(N^2)
 class Solution
 {
     void dfs(int idx,String s , List<List<String>> ans, List<String> subans)
     {
         
         //base case increasing recursion
-        if(idx==s.length())
+        if(idx==s.length()) //tried all posibiities
         {
             ans.add(new ArrayList<>(subans));
             return;
         }
         
-        for(int i=idx;i<s.length();i++)
+        for(int i=idx;i<s.length();i++)  //doing partitian at each possible index
         {
-            if(isPal(s,idx,i))
+            if(isPal(s,idx,i)) //checking if the partition made is palindrome or not
             {
-                subans.add(s.substring(idx,i+1));
+                subans.add(s.substring(idx,i+1));  //adding to subans if it is a palindrome
                 
                 dfs(i+1,s,ans,subans);
                 
-                subans.remove(subans.size()-1);
+                subans.remove(subans.size()-1);  //backtrack  <-- removing the last added character
             }
         }
         
