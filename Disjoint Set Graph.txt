@@ -1,0 +1,43 @@
+Given an array that stores all number from 1 to N (both inclusive and sorted).
+
+The task is to do following operations on array elements :
+UNION X Z : Do union of x and z. Parent of z will become parent of x.
+FIND X: Find the parent of X and print it.
+Note: Initially all are the parent of themselves.
+
+Input:
+First line consists of T test cases. First line of every test case consists of 2 integers N and K, denoting the size of array and number of queries. Second line consists of K queries, consisting of a string UNION or FIND , for union input two integers as input and to find take one integer as input.
+
+Output:
+For every FIND query print its parent.
+
+Constraints:
+1<=T<=100
+1<=N,K<=100
+
+Example:
+Input:
+1
+5 4
+FIND 4 FIND 1 UNION 3 1 FIND 3
+Output:
+4 1 1
+_______________________________________________________SOLUTION_________________________________
+class GfG
+{
+	int find(int a[],int x)
+    {
+          if(a[x]==x)
+            return x;
+          
+          return a[x]=find(a,a[x]);  //path compression
+	}
+	void unionSet(int a[],int x,int z)
+    {
+         int parX=find(a,x);
+         int parZ=find(a,z);
+         
+         if(parX!=parZ)  //if parent is not same then we are attaching z to x
+            a[parX]=parZ;
+	}
+}
