@@ -1,0 +1,75 @@
+Given a binary tree, find the lowest common ancestor (LCA) of two given nodes in the tree.
+
+According to the definition of LCA on Wikipedia: “The lowest common ancestor is defined between two nodes p and q as the lowest node in T that has both p and q as descendants (where we allow a node to be a descendant of itself).”
+
+ 
+
+Example 1:
+
+
+Input: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 1
+Output: 3
+Explanation: The LCA of nodes 5 and 1 is 3.
+Example 2:
+
+
+Input: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 4
+Output: 5
+Explanation: The LCA of nodes 5 and 4 is 5, since a node can be a descendant of itself according to the LCA definition.
+Example 3:
+
+Input: root = [1,2], p = 1, q = 2
+Output: 1
+___________________________________________________________SOLUTION____________________________________________
+//For returning data Change the data type of ArrayList to Integer and work accordingly
+class Solution 
+{
+    boolean find(TreeNode root,int searchKey,ArrayList<TreeNode> path)
+    {
+        if(root==null)
+            return false;
+        
+        if(root.val==searchKey)
+        {
+            path.add(root);
+            return true;
+        }
+//searching in left if found then adding the value and returning true saying that we found in this subtree
+        boolean left_call=find(root.left,searchKey,path);
+        if(left_call)
+        {
+            path.add(root);
+            return true;
+        }
+     //searching in right if found then adding the value and returning true saying that we found in this subtree
+        boolean right_call=find(root.right,searchKey,path);
+        if(right_call)
+        {
+            path.add(root);
+            return true;
+        }
+        
+        return false;
+    
+    }
+    
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) 
+    {
+        ArrayList<TreeNode> pathP=new ArrayList<>();  //finding path for P
+        ArrayList<TreeNode> pathQ=new ArrayList<>();  //Finding Path for Q
+        
+        find(root,p.val,pathP);//finding path for P
+        find(root,q.val,pathQ);//finding path for Q
+        
+        int p1=pathP.size()-1;//traversing from last and those whose value is same we are skipping it
+        int q1=pathQ.size()-1;
+        
+        while(p1>=0 && q1>=0 && pathP.get(p1)==pathQ.get(q1))
+        {
+            p1--;
+            q1--;
+        }
+        //after getting false in the above step
+        return pathP.get(++p1);
+    }
+}
