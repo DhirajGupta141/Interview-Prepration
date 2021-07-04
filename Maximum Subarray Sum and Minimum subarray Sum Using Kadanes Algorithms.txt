@@ -1,0 +1,36 @@
+
+*****Maximum Subarray Sum(Kadanes Algo)***************
+int ans=a[0];
+int sum=0;
+for(int i=0;i<n;i++)
+{
+	sum+=a[i];
+	ans=Math.max(sum,ans);
+	if(sum<0) sum=0;	
+}
+
+
+
+****Minimum Subarray Sum (Reverse of Above Algo ie reverse of Kadanes algo)********
+int ans=a[0];
+int sum=0;
+for(int i=0;i<n;i++)
+{
+	sum+=a[i];
+	ans=Math.min(sum,ans);
+	if(sum>0)sum=0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
