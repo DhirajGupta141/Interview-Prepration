@@ -1,3 +1,6 @@
+TC : O(nlogm) where n is the number of the books and m is the sum of the pages of all the books
+SC: O(1)
+________________________________________________________________________________________________________________________________________________________________________________
 Given an array of integers A of size N and an integer B.
 
 College library has N bags,the ith book has A[i] number of pages.
