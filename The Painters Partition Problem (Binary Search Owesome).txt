@@ -62,8 +62,8 @@ class Solution
         
         for(int i: a)
         {
-            lower=Math.max(i,lower);
-            upper+=i;
+            lower=Math.max(i,lower);  // minimum time would be the maximum value in the array 
+            upper+=i;                 // maximum time would be the sum of the length of the all the elements that is one single workers works for all the boards
         }
         
         long start=(long)lower;
