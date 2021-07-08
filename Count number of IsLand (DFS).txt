@@ -1,0 +1,74 @@
+Given N x M character matrix A of O's and X's, where O = white, X = black.
+
+Return the number of black shapes. A black shape consists of one or more adjacent X's (diagonals not included)
+
+
+
+Input Format:
+
+    The First and only argument is a N x M character matrix.
+Output Format:
+
+    Return a single integer denoting number of black shapes.
+Constraints:
+
+    1 <= N,M <= 1000
+    A[i][j] = 'X' or 'O'
+Example:
+
+Input 1:
+    A = [ OOOXOOO
+          OOXXOXO
+          OXOOOXO  ]
+Output 1:
+    3
+Explanation:
+    3 shapes are  :
+    (i)    X
+         X X
+    (ii)
+          X
+    (iii)
+          X
+          X
+_______________________________________________________________SOLUTION____________________________________________
+public class Solution {
+    public int black(String[] a) 
+    {
+        int ans=0;
+        int n=a.length;
+        int m=a[0].length();
+        boolean vis[][]=new boolean[n][m];
+        
+        for(int i=0;i<a.length;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                if(a[i].charAt(j)=='X' && vis[i][j]==false)
+                {
+                    dfs(a,i,j,vis);
+                    ans++;
+                }
+            }
+        }
+
+        return ans;
+    }
+
+
+    void dfs(String a[],int i,int j,boolean vis[][])
+    {
+        if(i<0 || i>=a.length || j<0 || j>=a[0].length() || a[i].charAt(j)!='X'||vis[i][j]==true)
+        {
+            return;
+        }
+
+        vis[i][j]=true;
+
+        dfs(a,i+1,j,vis);
+        dfs(a,i,j+1,vis);
+        dfs(a,i,j-1,vis);
+        dfs(a,i-1,j,vis);
+
+    }
+}
