@@ -1,0 +1,78 @@
+Problem Description
+
+Given A and B you have to find all stepping numbers in range A to B.
+
+The stepping number:
+
+A number is called as a stepping number if the adjacent digits have a difference of 1.
+
+e.g. 123 is stepping number, but 358 is not a stepping number
+
+
+
+Input Format
+First argument is an integer A.
+
+Second argument is an integer B.
+
+
+
+Output Format
+Return a integer array sorted in ascending order denoting the stepping numbers between A and B.
+
+
+
+Example Input
+Input 1:
+
+ A = 10
+ B = 20
+
+
+Example Output
+Output 1:
+
+ [10, 12]
+
+
+Example Explanation
+Explanation 1:
+
+ All stepping numbers are 10 , 12 
+____________________________________________________________________SOLUTION___________________________________________
+public class Solution
+{
+    boolean Valid(int n)
+    {
+        
+        if(n<=10) 
+            return true;
+        
+        int last=n%10;
+        n=n/10;
+        while(n>0)
+        {
+            int curr=n%10;
+            if(Math.abs(curr-last)!=1) 
+                return false;
+            
+            last=curr;
+            n=n/10;
+        }
+        return true;
+    }
+
+    public ArrayList<Integer> stepnum(int A, int B)
+    {
+        ArrayList<Integer> ans=new ArrayList<>();
+        for(int i=A;i<=B;i++)
+        {
+            if(Valid(i)) 
+            {
+                ans.add(i);
+            }
+        }
+        return ans;
+
+    }
+}
