@@ -1,0 +1,36 @@
+Your task  is to implement the function atoi. The function takes a string(str) as argument and converts it to an
+ integer and returns it.
+
+Note: You are not allowed to use inbuilt function.
+
+Example 1:
+
+Input:
+str = 123
+Output: 123
+
+Example 2:
+
+Input:
+str = 21a
+Output: -1
+Explanation: Output is -1 as all
+characters are not digit only.
+_____________________________________________________________________SOLUTION________________________________________________________
+class Solution
+{
+    int atoi(String s)
+    {
+        int ans=0;
+        
+        for(int i=(s.charAt(0)=='-')?1:0;i<s.length();i++)
+        {
+            if(Character.isDigit(s.charAt(i)))
+                ans=ans*10+ s.charAt(i)-'0';
+            else
+                return -1;
+        }
+        
+        return (s.charAt(0)=='-')?-ans:ans;
+    }
+}
