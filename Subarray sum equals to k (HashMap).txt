@@ -1,0 +1,70 @@
+Given an unsorted array of integers, find the number of continuous subarrays having sum exactly equal to a given number k.
+
+
+Example 1:
+
+Input:
+N = 5
+Arr = {10 , 2, -2, -20, 10}
+k = -10
+Output: 3
+Explaination: 
+Subarrays: arr[0...3], arr[1...4], arr[3..4]
+have sum exactly equal to -10.
+
+Example 2:
+
+Input:
+N = 6
+Arr = {9, 4, 20, 3, 10, 5}
+k = 33
+Output: 2
+Explaination: 
+Subarrays : arr[0...2], arr[2...4] have sum
+exactly equal to 33.
+_______________________________________________________________________SOLUTION_________________________________________________________
+class Solution
+{
+    static int findSubArraySum(int a[], int n, int k)
+    {
+        int count=0;
+        for(int i=0;i<a.length;i++)
+        {
+            int sum=0;
+            for(int j=i;j<a.length;j++)
+            {
+                sum+=a[j];
+                if(sum==k)
+                    count++;
+            }
+        }
+        return count;
+    }
+}
+
+class Solution
+{
+    static int findSubArraySum(int a[], int n, int k)
+    {
+        if(a.length==0) return 0;
+        
+        HashMap<Integer,Integer> m=new HashMap<>();
+        
+        int sum=0;
+        int i=0;
+        int count=0;
+        while(i<n)
+        {
+            sum+=a[i]; //current array sum
+            
+            if(sum==k) count++;  
+            
+            if(m.containsKey(sum-k)) //if sum-k is aready present in the sum
+                count+=m.get(sum-k);
+            
+            m.put(sum,m.getOrDefault(sum,0)+1); //putting the current sum count
+            i++;
+        }
+        return count;
+    }
+}
