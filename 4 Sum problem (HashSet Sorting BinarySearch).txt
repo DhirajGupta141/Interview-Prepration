@@ -1,0 +1,66 @@
+Given an array nums of n integers, return an array of all the unique quadruplets [nums[a], nums[b], nums[c], nums[d]] such that:
+
+0 <= a, b, c, d < n
+a, b, c, and d are distinct.
+nums[a] + nums[b] + nums[c] + nums[d] == target
+You may return the answer in any order.
+
+ 
+
+Example 1:
+
+Input: nums = [1,0,-1,0,-2,2], target = 0
+Output: [[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]
+Example 2:
+
+Input: nums = [2,2,2,2,2], target = 8
+Output: [[2,2,2,2]]
+_________________________________________________________________________SOLUTION____________________________________________________
+class Solution 
+{
+    public List<List<Integer>> fourSum(int[] a, int target) 
+    {
+        if(a.length<4)
+            return new ArrayList<>();
+        
+        HashSet<ArrayList<Integer>> set=new HashSet<>();
+        
+        int n=a.length;
+        
+        Arrays.sort(a);//so that we could apply binary search
+        
+        for(int i=0;i<=n-4;i++)
+        {
+            for(int j=i+1;j<=n-3;j++)
+            {
+                int t=target-a[i]-a[j];
+                int start=j+1;
+                int end=n-1;
+                while(start<end)
+                {
+                    if(a[start]+a[end]==t)
+                    {
+                        ArrayList<Integer> subans=new ArrayList<>();
+                        subans.add(a[i]);
+                        subans.add(a[j]);
+                        subans.add(a[start]);
+                        subans.add(a[end]);
+                        
+                        set.add(subans);
+                        
+                        start++;  //we need to do this else we will get TLE(Infinite add)
+                        end--;
+                    }
+                    else if(a[start]+a[end]>t)
+                        end--;
+                    else
+                        start++;
+                }
+            }
+        }
+        
+        List<List<Integer>> ans=new ArrayList<>(set);  //putting our answer
+        
+        return ans;
+    }
+}
