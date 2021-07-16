@@ -1,0 +1,82 @@
+Given two numbers represented by two linked lists of size N and M. The task is to return a sum list. The sum list is a linked list representation of the addition of two input numbers from the last.
+
+Example 1:
+
+Input:
+N = 2
+valueN[] = {4,5}
+M = 3
+valueM[] = {3,4,5}
+Output: 3 9 0  
+Explanation: For the given two linked
+list (4 5) and (3 4 5), after adding
+the two linked list resultant linked
+list will be (3 9 0).
+Example 2:
+
+Input:
+N = 2
+valueN[] = {6,3}
+M = 1
+valueM[] = {7}
+Output: 7 0
+Explanation: For the given two linked
+list (6 3) and (7), after adding the
+two linked list resultant linked list
+will be (7 0).
+_______________________________________________________________________SOLUTION________________________________________________
+
+class Solution
+{
+    static Node reverse(Node head)
+    {
+        Node newHead=null;
+        
+        while(head!=null)
+        {
+            Node next=head.next;
+            head.next=newHead;
+            newHead=head;
+            head=next;
+        }
+        return newHead;
+    }
+
+    static Node addTwoLists(Node first, Node second)
+    {
+        
+        Node l1=reverse(first);
+        Node l2=reverse(second);
+        
+        Node ans=new Node(-1);
+        Node pointer=ans;
+        int carry=0;
+        
+        while(l1!=null || l2!=null || carry!=0)
+        {
+            int sum=0;   //sum at the current node
+            
+            if(l1!=null)
+            {
+                sum+=l1.data;
+                l1=l1.next;
+            }
+            
+            if(l2!=null)
+            {
+                sum+=l2.data;
+                l2=l2.next;
+            }
+            
+            sum+=carry;       //carry of the previous node
+            
+            Node newNode=new Node(sum%10);
+            pointer.next=newNode;
+            pointer=pointer.next;
+            
+            carry=sum/10;   //storing the carry
+        }
+        
+        return reverse(ans.next);
+    }
+}
