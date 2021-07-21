@@ -1,0 +1,101 @@
+Given a Binary Tree, find its Boundary Traversal. The traversal should be in the following order: 
+
+Left boundary nodes: defined as the path from the root to the left-most node ie- the leaf node you could reach when you always travel preferring the left subtree over the right subtree. 
+Leaf nodes: All the leaf nodes except for the ones that are part of left or right boundary.
+Reverse right boundary nodes: defined as the path from the right-most node to the root. The right-most node is the leaf node you could reach when you always travel preferring the right subtree over the left subtree. Exclude the root from this as it was already included in the traversal of left boundary nodes.
+Note: If the root doesn't have a left subtree or right subtree, then the root itself is the left or right boundary. 
+
+Example 1:
+
+Input:
+        1
+      /   \
+     2     3    
+   
+Output: 1 2 3
+Explanation:
+
+
+Example 2:
+
+Input:
+          20
+        /   \
+       8     22
+     /   \    \
+    4    12    25
+        /  \ 
+       10   14 
+
+Output: 20 8 4 10 14 25 22
+Explanation: 
+______________________________________________________________________SOLUTION____________________________________________________
+//TC : O(n) and SC=(Hight of BT stack space)
+class Solution
+{
+    
+    void leftBoundary(Node root,ArrayList<Integer> ans)
+    {
+        if(root==null)
+            return ;
+        if(root.left!=null)   //remember leaf will never get added because leaf nodes left and right are null
+        {
+            ans.add(root.data);
+            leftBoundary(root.left,ans);
+        }
+        
+        else if(root.right!=null)   //else if is important over here only if will not help you it will add redundant data to the answer
+        {                          // we go ti the right only if left is not there
+            ans.add(root.data);
+            leftBoundary(root.right,ans);
+        }
+    }
+    
+    void rightBoundary(Node root,ArrayList<Integer>ans)
+    {
+        if(root==null)
+            return;
+           
+        //first going in depth and then adding in answer because we want answer in anticlock wise 
+        if(root.right!=null)
+        {
+            rightBoundary(root.right,ans);
+            ans.add(root.data);
+        }
+        
+        else if(root.left!=null)
+        {
+           rightBoundary(root.left,ans);
+           ans.add(root.data); 
+        }
+    }
+    
+    void leafBoundary(Node root,ArrayList<Integer> ans)
+    {
+        if(root==null)
+            return;
+        
+        //going depth
+        leafBoundary(root.left,ans);
+        
+        //after completing left call that is after hitting the base case
+        if(root.left==null && root.right==null)
+            ans.add(root.data);
+        
+        leafBoundary(root.right,ans); //going depth
+    }
+    
+	ArrayList <Integer> printBoundary(Node root)
+	{
+	    ArrayList<Integer> ans=new ArrayList<Integer>();
+	    
+	    ans.add(root.data);
+	    
+	    
+	    leftBoundary(root.left,ans);
+	    leafBoundary(root,ans);
+	    rightBoundary(root.right,ans);
+	    
+	    return ans;
+	}
+}
