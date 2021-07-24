@@ -1,0 +1,53 @@
+Given an array arr[ ] of size N, write a program that returns 1 if given array can represent preorder traversal of a possible BST, else returns 0.
+
+Example 1:
+
+Input:
+N = 3
+arr = {2, 4, 3}
+Output: 1
+Explaination: Given arr[] can represent
+preorder traversal of following BST:
+               2
+                \
+                 4
+                /
+               3
+Example 2:
+
+Input:
+N = 3
+Arr = {2, 4, 1}
+Output: 0
+Explaination: Given arr[] cannot represent
+preorder traversal of a BST.
+__________________________________________________________________________________SOLUTION_______________________________________________
+class Solution 
+{
+    static int canRepresentBST(int arr[], int N) 
+    {
+        Stack<Integer> st=new Stack<Integer>();
+        
+        int curr_root=Integer.MIN_VALUE;   //keeping track of root
+        for(int i:arr)
+        {
+            //removing all the smaller elements than current elements
+            while(st.isEmpty()==false && i>st.peek())
+                curr_root=st.pop();
+            
+            //if at any time forward elements are lesser than curr_root then its not a valid preorder because root.right is always greater than root
+            if(i<curr_root)
+                return 0;
+            
+            st.push(i);   //if stack is empty or above two condition are not met
+        }
+        
+        return 1;
+    }
+
+    
+    
+    
+    
+    
+    
