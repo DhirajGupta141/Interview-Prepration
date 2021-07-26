@@ -41,15 +41,15 @@ class Solution
     boolean DFS(char [][] b,int i,int j,int idx,String word)
     {
         //base case
-        if(idx==word.length())
+        if(idx==word.length())   //means we have found all the characters of the wordsearch string
             return true;
        
         if(i<0 || i>=b.length || j<0 || j>=b[i].length || b[i][j]!=word.charAt(idx))
             return false;
         
-        char temp=b[i][j];
+        char temp=b[i][j];  //because we cannot take the same character again for making the wordsearch
         b[i][j]=' ';
-        //searching in all four directions of current character
+        //searching in all four directions of current character 
         boolean found=DFS(b,i+1,j,idx+1,word) || DFS(b,i-1,j,idx+1,word) || 
                       DFS(b,i,j+1,idx+1,word) || DFS(b,i,j-1,idx+1,word);
         b[i][j]=temp;  //backtrack
