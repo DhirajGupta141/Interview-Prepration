@@ -48,11 +48,12 @@ class Solution
         int cur_size=0;
         int i=0;
         int ans=0;
+        
         while(cur_size<size/2)
         {
-            cur_size+=val.get(i);
-            i++;
-            ans++;
+            cur_size+=val.get(i);    //count of each array elements  and we are adding the count of occurance of that element
+            i++;                       
+            ans++;   //size of your answer ie number of elements is required to make the array size less than or equal to the size of the 
         }
         
         return ans;
