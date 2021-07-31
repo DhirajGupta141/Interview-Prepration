@@ -1,0 +1,55 @@
+An image is represented by a 2-D array of integers, each integer representing the pixel value of the image.
+
+Given a coordinate (sr, sc) representing the starting pixel (row and column) of the flood fill, and a pixel value newColor, "flood fill" the image.
+
+To perform a "flood fill", consider the starting pixel, plus any pixels connected 4-directionally to the starting pixel of the same color as the starting pixel, plus any pixels connected 4-directionally to those pixels (also with the same color as the starting pixel), and so on. Replace the color of all of the aforementioned pixels with the newColor.
+
+Example 1:
+
+Input: image = {{1,1,1},{1,1,0},{1,0,1}},
+sr = 1, sc = 1, newColor = 2.
+Output: {{2,2,2},{2,2,0},{2,0,1}}
+Explanation: From the center of the image 
+(with position (sr, sc) = (1, 1)), all 
+pixels connected by a path of the same color
+as the starting pixel are colored with the new 
+color.Note the bottom corner is not colored 2, 
+because it is not 4-directionally connected to 
+the starting pixel.
+______________________________________________________________________________SOLUTION_______________________________________
+TC--> O(m*n)
+
+//changed color of only those pixels whose value is oldColor value
+class Solution
+{
+    public int[][] floodFill(int[][] image, int sr, int sc, int newColor)
+    {
+        if(image[sr][sc]==newColor)   //if starting possition is already filled with new color
+            return image;
+        
+        int oldColor=image[sr][sc];  //holding  the old color
+        
+        dfs(image,sr,sc,oldColor,newColor);  //making changes in the same image
+        
+        return image;  //returning image after changes
+        
+    }
+    
+    void dfs(int image[][],int sr,int sc,int oldColor,int newColor)
+    {
+        //out of boundary or if the color is not the initail color
+        if(sr<0 || sr>=image.length || sc<0 || sc>=image[0].length 
+        || image[sr][sc]!=oldColor)
+            return;
+            
+        image[sr][sc]=newColor;  //putting the newColor if all good
+        
+        
+        //making calls in all four direction
+        dfs(image,sr+1,sc,oldColor,newColor);
+        dfs(image,sr-1,sc,oldColor,newColor);
+        dfs(image,sr,sc+1,oldColor,newColor);
+        dfs(image,sr,sc-1,oldColor,newColor);
+        
+    }
+}
