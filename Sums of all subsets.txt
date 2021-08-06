@@ -1,0 +1,62 @@
+Given a list arr of N integers, print sums of all subsets in it. Output should be printed in increasing order of sums.
+
+Example 1:
+
+Input:
+N = 2
+arr[] = {2, 3}
+Output:
+0 2 3 5
+Explanation:
+When no elements is taken then Sum = 0.
+When only 2 is taken then Sum = 2.
+When only 3 is taken then Sum = 3.
+When element 2 and 3 are taken then 
+Sum = 2+3 = 5.
+Example 2:
+
+Input:
+N = 3
+arr = {5, 2, 1}
+Output:
+0 1 2 3 5 6 7 8
+____________________________________________________________________________________SOLUTION___________________________________________________________
+class Solution
+{
+    void subsets(int idx,ArrayList<Integer> a,ArrayList<Integer> subans,ArrayList<ArrayList<Integer>> ans)
+    {
+        ans.add(new ArrayList<>(subans));
+        
+        for(int i=idx;i<a.size();i++)
+        {
+            subans.add(a.get(i));
+            subsets(i+1,a,subans,ans);
+            subans.remove(subans.size()-1);
+        }
+    }
+    
+    
+    
+    ArrayList<Integer> subsetSums(ArrayList<Integer> a, int N)
+    {
+        ArrayList<ArrayList<Integer>> ans=new ArrayList<>();
+        
+        subsets(0,a,new ArrayList<>(),ans);
+        
+        ArrayList<Integer> toReturn =new ArrayList<Integer>();
+        
+        for(ArrayList<Integer> list:ans)
+        {
+            int sum=0;
+            for(int val:list)
+            {
+                sum+=val;
+            }
+            
+            toReturn.add(sum);
+        }
+        
+        Collections.sort(toReturn);
+        return toReturn;
+    }
+}
