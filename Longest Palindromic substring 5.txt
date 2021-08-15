@@ -1,0 +1,85 @@
+Given a string s, return the longest palindromic substring in s.
+
+ 
+
+Example 1:
+
+Input: s = "babad"
+Output: "bab"
+Note: "aba" is also a valid answer.
+Example 2:
+
+Input: s = "cbbd"
+Output: "bb"
+Example 3:
+
+Input: s = "a"
+Output: "a"
+Example 4:
+
+Input: s = "ac"
+Output: "a"
+_____________________________________________________________________________SOLUTION________________________________________________
+class Solution
+{
+    public String longestPalindrome(String s) 
+    {
+        int n=s.length();
+        int maxlength=1;
+        int start=0;
+        int t[][]=new int[n][n];  //0to 0 , 1 to 1 , 2 to2 (indexs)
+
+        // Handling length of string 1 and 2
+        if(n==1)
+        {
+            return s;
+        }        
+        else 
+        {
+                //for length of string 1(0to 0 , 1to 1 , 2 to 2 , 3to 3 )
+                for(int i=0;i<n;i++)
+                {
+                    t[i][i]=1;
+                }
+
+                //for length of the string 2 (0 to 1 , 1 to2 )
+                for(int i=0;i<n-1;i++)
+                {
+                    if(s.charAt(i)==s.charAt(i+1))
+                    {
+                        t[i][i+1]=1;
+                        start=i;
+                        maxlength=2;
+                    }
+
+                }
+
+                //for three or more length of substring
+                
+                for(int k=3;k<=n;k++)
+                {
+                    for(int i=0;i<=n-k;i++)
+                    {
+                        int j=i+k-1;
+
+                        if( t[i+1][j-1]==1 && s.charAt(i)==s.charAt(j))
+                        {
+                            t[i][j]=1;
+
+                            if(k>maxlength)
+                            {
+                                start=i;
+                                maxlength=k;
+                            }
+                        }
+
+                    }
+                }
+            
+            
+            return s.substring(start,start+maxlength);
+            
+            
+        }
+    }
+}
