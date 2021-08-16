@@ -1,0 +1,112 @@
+Given two strings s and t of lengths m and n respectively, return the minimum window substring of s such that every character in t (including duplicates) is included in the window. If there is no such substring, return the empty string "".
+
+The testcases will be generated such that the answer is unique.
+
+A substring is a contiguous sequence of characters within the string.
+
+ 
+
+Example 1:
+
+Input: s = "ADOBECODEBANC", t = "ABC"
+Output: "BANC"
+Explanation: The minimum window substring "BANC" includes 'A', 'B', and 'C' from string t.
+Example 2:
+
+Input: s = "a", t = "a"
+Output: "a"
+Explanation: The entire string s is the minimum window.
+Example 3:
+
+Input: s = "a", t = "aa"
+Output: ""
+Explanation: Both 'a's from t must be included in the window.
+Since the largest window of s only has one 'a', return empty string.
+_____________________________________________________________________________SOLUTION_______________________________________________________________
+class Solution
+{
+    public String minWindow(String t, String p) 
+    {
+        
+        String ans="";
+        if(p.length()>t.length())
+        {
+            return ans;
+        }
+        
+        HashMap<Character,Integer> m2=new HashMap<Character,Integer>();
+        
+        for(char c:p.toCharArray())
+        {
+            m2.put(c,m2.getOrDefault(c,0)+1);
+        }
+        
+        int rmc=p.length();
+        
+        int mc=0;
+        HashMap<Character,Integer> m1=new HashMap<>();
+        int i=-1,j=-1;
+        
+        while(true)
+        {
+            boolean f1=false;
+            boolean f2=false;
+            //Acquire
+            while(j<t.length()-1 && mc<rmc)
+            {
+                j++;
+                char c=t.charAt(j);
+                m1.put(c,m1.getOrDefault(c,0)+1);
+                
+                if(m1.getOrDefault(c,0)<=m2.getOrDefault(c,0))
+                {
+                    mc++;
+                }
+                f1=true;
+            }
+            
+            //Ans And Release
+            while(i<j && mc==rmc)
+            {
+                String subans=t.substring(i+1,j+1);
+                
+                if(ans.length()==0 || subans.length()<ans.length())
+                {
+                    ans=subans;
+                }
+                
+                //Release
+                i++;
+                
+                char c=t.charAt(i);
+                if(m1.get(c)==1)
+                {
+                    m1.remove(c);
+                }
+                else
+                {
+                    m1.put(c,m1.get(c)-1);
+                
+                }
+                
+                if(m1.getOrDefault(c,0)<m2.getOrDefault(c,0))       // Extra removal
+                {
+                    mc--;
+                }
+                
+                f2=true;
+            }
+            
+            
+            if(f1==false && f2==false)
+            {
+                break;
+            }
+        }
+        
+        
+        return ans;
+        
+     
+    }
+}
