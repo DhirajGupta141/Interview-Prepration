@@ -56,13 +56,13 @@ class Solution
         }
         
         //Now we have four options;
-        m[i][j]=0; //making it visited;
+        m[i][j]=0; //making it visited;//this step is very important if we dont do this then we will go in infinite recursion call between either DL,DU,RU or any two calls 
         
         backtrack(m,n,ans,i+1,j,path+"D");   //after completing this recursion the below one will execute ie after hitting the base case
         backtrack(m,n,ans,i,j-1,path+"L");
         backtrack(m,n,ans,i,j+1,path+"R");
         backtrack(m,n,ans,i-1,j,path+"U");
         
-        m[i][j]=1;  //backtrack
+        m[i][j]=1;  //backtrack   // marking again with the same value
     }
 }
