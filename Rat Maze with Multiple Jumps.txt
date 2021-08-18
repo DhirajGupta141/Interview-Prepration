@@ -1,0 +1,113 @@
+A Maze is given as an N*N binary matrix of blocks. Where source block is the upper leftmost block. Which is a maze[0][0], and the destination block is a lower rightmost block. That is a maze[N-1][N-1]. A rat starts from the source and has to reach the destination. The rat can move only in two directions: if possible, the first is forward or else down. If multiple solutions exist, the shortest and earliest hop will be accepted. For the same hopping distance at any point, forward will be preferred over downward.
+
+In the maze matrix, 0 means the block is dead-end. And a non-zero number means the block can be used in the path from source to destination. The non-zero value of mat[i][j] indicates, the number of maximum jumps rat can make from cell mat[i][j].
+
+In this variation, a rat is allowed to jump multiple steps at a time instead of 1.
+
+
+
+Format:
+
+Input:
+
+The first line of input contains an integer T, denoting the number of test cases. For each test case, the first line contains an integer N, denoting the size of a square matrix N*N. The next line is the space-separated values of the matrix M, where 0's represent blocked paths and any other number represents valid paths. 
+
+Output:
+
+For each test case, the output is a matrix that contains 1 for the path and 0 for no path taken. If no path exists in a matrix, print -1.
+___________________________________________________________________________SOLUTION________________________________________________________
+import java.util.*;
+
+class Main
+{
+  static boolean dfs(int i,int j,int m[][],int ans[][],int n)
+  {
+    if(i<0 || i>=n || j<0 || j>=n || m[i][j]==0)
+    {
+      return false;
+    }
+    if(i==n-1 && j==n-1)
+    {
+      ans[i][j]=1;
+      return true;
+    }
+    
+    ans[i][j]=1;
+    
+    for(int t=1;t<=m[i][j];t++)
+    {
+           if( dfs(i,j+t,m,ans,n) )//forward
+           {
+             ans[i][j]=1;
+             return true;
+           }
+      
+           if( dfs(i+t,j,m,ans,n) )//forward
+           {
+             ans[i][j]=1;
+             return true;
+           }
+      		
+    }
+     ans[i][j]=0;
+    return false;
+    
+  }
+  public static void main(String args[])
+  {
+    Scanner sc=new Scanner(System.in);
+    int tcase=sc.nextInt();
+    
+    while(tcase-->0)
+    {
+      int n=sc.nextInt();
+      int m[][]=new int[n][n];
+      
+      for(int i=0;i<n;i++)
+      {
+        for(int j=0;j<n;j++)
+        {
+          m[i][j]=sc.nextInt();
+        }
+      }
+      
+      int ans[][]=new int[n][n];
+      
+      if(dfs(0,0,m,ans,n)==false)
+      {
+        System.out.print("-1");
+        return;
+      }
+      else
+      {
+          for(int i=0;i<n;i++)
+          {
+            for(int j=0;j<n;j++)
+            {
+             // m[i][j]=sc.nextInt();
+              System.out.print(ans[i][j]+ " ");
+            }
+            System.out.println();
+          }
+      }
+        
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
