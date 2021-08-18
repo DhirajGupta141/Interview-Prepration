@@ -1,0 +1,52 @@
+You have a hospital with M X N number of rooms. Suddenly bacterial infection occurs in one room and it starts spreading in North, South, West, East directions and only to its adjacent room. Find how long would it take for the bacteria to be spread to the entire hospital.
+
+
+
+1) Get the Size of an array: 3 4
+
+2) Get the infection_location: 1 2
+
+3) Output : 4
+
+____________________________________________________________SOLUTION____________________________________
+import java.util.*;
+class Main
+{
+  //static int ans=0;
+  static void helper(int sr,int sc,int row,int col,int m[][],int time)
+  {
+    if(sr<0 || sr>=row || sc<0 || sc>=col)
+      return;
+    if(m[sr][sc]!=0 && time>=m[sr][sc])
+      return;
+    
+     m[sr][sc]=time;
+    
+     //ans=Math.max(ans,m[sr][sc]);
+     helper(sr-1,sc,row,col,m,time+1);
+     helper(sr+1,sc,row,col,m,time+1);
+     helper(sr,sc-1,row,col,m,time+1);
+     helper(sr,sc+1,row,col,m,time+1);
+  }
+  public static void main(String args[])
+  {
+    Scanner sc=new Scanner(System.in);
+    int row=sc.nextInt();
+    int col=sc.nextInt();
+    int sr=sc.nextInt();
+    int scol=sc.nextInt();
+    
+    int m[][]=new int[row][col];
+    helper(sr,scol,row,col,m,1);
+    int ans=0;
+    for(int i=0;i<m.length;i++)
+    {
+      	for(int j=0;j<m[0].length;j++)
+        {
+          ans=Math.max(ans,m[i][j]);
+        }
+    }
+    System.out.print(ans);
+    
+  }
+}
