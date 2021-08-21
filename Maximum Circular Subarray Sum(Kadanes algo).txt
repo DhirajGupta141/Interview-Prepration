@@ -31,7 +31,7 @@ class Solution {
         int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
         int s = 0, s1 = 0, s2 = 0;
         for(int i : a) {
-            s += i;
+            s += i;  //sum of all the array elements 
             
             s1 += i;  //for maximum sum subarray kadanes algorithms
             if(s1 > max) max = s1;
@@ -42,7 +42,7 @@ class Solution {
             if(s2 > 0) s2 = 0;
         }
         
-        if(max < 0) return max;
+        if(max < 0) return max; 
         return Math.max(max,s-min);
     }
 }
