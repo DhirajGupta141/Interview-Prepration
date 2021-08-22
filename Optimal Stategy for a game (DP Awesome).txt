@@ -28,7 +28,7 @@ class solve
     
    static long helper(int i,int j,int a[],long t[][])
     {
-        if(i>j)
+        if(i>j)   //if i crosses j
             return 0;
             
         if(t[i][j]!=-1)
@@ -44,7 +44,8 @@ class solve
     static long countMaximum(int a[], int n)
     {
         
-        long t[][]=new long[n+1][n+1];
+        long t[][]=new long[n+1][n+1];  //
+        we make the array of variable which is changing so here length of the array is changing so t[N+1][N+1];
         
         for(long rows[]:t)
             Arrays.fill(rows,-1);
