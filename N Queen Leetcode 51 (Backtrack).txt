@@ -41,7 +41,7 @@ class Solution
     
     void dfs(int curr_col,char board[][],List<List<String>> ans,int n)
     {
-        if(curr_col==n)
+        if(curr_col==n)  //because its increasing recursion calls
         {
             ans.add(make_ans(board));  //current board which is giving ans
             return;
@@ -53,7 +53,7 @@ class Solution
             {
                 board[row][curr_col]='Q';
                 dfs(curr_col+1,board,ans,n);//if we have put the queen at the current col we need to move next col
-                board[row][curr_col]='.';  //backtrack
+                board[row][curr_col]='.';  //backtrack  <-- means we dont want to put the Q in the current column
             }
         }
     }
@@ -94,8 +94,9 @@ class Solution
                 col--;
             }  
         }
-        
+       
         //checkking same row
+        
         row=dupRow;
         col=dupCol;
         while(col>=0)
