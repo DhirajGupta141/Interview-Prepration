@@ -1,0 +1,55 @@
+Given a string text, you want to use the characters of text to form as many instances of the word "balloon" as possible.
+
+You can use each character in text at most once. Return the maximum number of instances that can be formed.
+
+ 
+
+Example 1:
+
+
+
+Input: text = "nlaebolko"
+Output: 1
+Example 2:
+
+
+
+Input: text = "loonbalxballpoon"
+Output: 2
+Example 3:
+
+Input: text = "leetcode"
+Output: 0
+___________________________________________________________________________SOLUTION__________________________________________________
+class Solution 
+{
+    public int maxNumberOfBalloons(String text) 
+    {
+      if(text.length()<7)
+          return 0;
+        
+        
+        int t[]=new int[26];
+        
+        for(char c:text.toCharArray())
+            t[c-'a']++;
+        
+        
+        char check[]=new char[]{'b', 'a','l','o','n'};
+        
+        int ans=Integer.MAX_VALUE;
+        
+        
+        for(char c:check)  //Here we are getting asnwer because we are checking for minimum in "BALLOON"
+        {
+            if(c=='l' || c=='o')
+            {
+                t[c-'a']=t[c-'a']/2;
+            }
+            ans=Math.min(ans,t[c-'a']);
+        }
+        
+        return ans==Integer.MAX_VALUE?0:ans;
+        
+    }
+}
