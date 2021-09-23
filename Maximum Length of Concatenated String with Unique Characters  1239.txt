@@ -1,0 +1,76 @@
+Given an array of strings arr. String s is a concatenation of a sub-sequence of arr which have unique characters.
+
+Return the maximum possible length of s.
+
+ 
+
+Example 1:
+
+Input: arr = ["un","iq","ue"]
+Output: 4
+Explanation: All possible concatenations are "","un","iq","ue","uniq" and "ique".
+Maximum length is 4.
+Example 2:
+
+Input: arr = ["cha","r","act","ers"]
+Output: 6
+Explanation: Possible solutions are "chaers" and "acters".
+Example 3:
+
+Input: arr = ["abcdefghijklmnopqrstuvwxyz"]
+Output: 26
+______________________________________________________________________SOLUTION___________________________________________________________
+class Solution 
+{
+    
+    public int maxLength(List<String> a) 
+    {
+        //solving with the lefp of pick and nonpick
+        if(a.size()==1)
+            return a.get(0).length();
+        
+        int ans=Integer.MIN_VALUE;
+        ArrayList<String> ansList=new ArrayList<>();
+        ansList.add("");
+        
+        for(String candi:a)
+        {
+            //checking if current candidate dont have ant repeated character if it is unique then we proceed else 
+             // discard current candi
+            if(checkUniqueString(candi))
+            {
+                //tempans for the already existed string and current candidate concatination
+                ArrayList<String> tempans=new ArrayList<>();   
+                for(String toBeConcat:ansList)
+                {
+                    String concated=toBeConcat+candi;
+                    if(checkUniqueString(concated))  //checking uniqueness after concatination of strings
+                        tempans.add(concated);
+                }
+                
+                ansList.addAll(tempans);
+            }
+            
+        }
+       for(String candidateForAns:ansList)
+            ans=Math.max(ans,candidateForAns.length());
+        
+        return ans;
+    }
+    boolean checkUniqueString(String s)
+    {
+        if(s.length()>26)
+            return false;
+        
+        int ch[]=new int[26];
+        for(char c:s.toCharArray())
+        {
+            ch[c-'a']++;
+            if(ch[c-'a']>1)   //means any of the character has repeated 
+                return false;
+        }
+        
+        return true;
+        
+    }
+}
