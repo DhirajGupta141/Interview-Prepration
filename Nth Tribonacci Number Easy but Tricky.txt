@@ -1,0 +1,74 @@
+The Tribonacci sequence Tn is defined as follows: 
+
+T0 = 0, T1 = 1, T2 = 1, and Tn+3 = Tn + Tn+1 + Tn+2 for n >= 0.
+
+Given n, return the value of Tn.
+
+ 
+
+Example 1:
+
+Input: n = 4
+Output: 4
+Explanation:
+T_3 = 0 + 1 + 1 = 2
+T_4 = 1 + 1 + 2 = 4
+Example 2:
+
+Input: n = 25
+Output: 1389537
+_______________________________________________________________________SOLUTION___________________________________________________________
+class Solution {
+    public int tribonacci(int n) 
+    {
+      if(n==0)
+          return 0;
+      if(n==1)
+          return 1;
+      if(n==2)
+          return 1;
+        
+      //1) DP array
+      int t[]=new int[n+1];
+        
+      t[0]=0;
+      t[1]=1;
+      t[2]=1;
+      
+       // tn+3=tn+tn+1+tn+2 means t[i]=t[i-3]+t[i-2]+t[i-1] dry run and make DP array for n=4 for better understanding 
+        for(int i=3;i<=n;i++)
+        {
+            t[i]=t[i-3]+t[i-2]+t[i-1];
+        }
+        return t[n];
+        
+        //2) Without any extra space
+        int a=0;
+        int b=1;
+        int c=1;
+        int sum=0;
+        int idx=3;
+        
+        while(idx<=n)
+        {
+            sum=a+b+c;
+            idx++;
+            a=b;
+            b=c;
+            c=sum;
+        }
+        return sum;
+        
+        
+        //3) recusive approach  <-- Giving TLE
+        int sum=0;
+        if(n>=3) //making calls only when n>=3 because our ans depends on last three elements 
+            sum+=tribonacci(n-3)+tribonacci(n-2)+tribonacci(n-1);
+        return sum;
+        
+        //4) Could be done using top down approach that is memmoization using int memo[]=new int[38];
+        
+        
+        
+    }
+}
